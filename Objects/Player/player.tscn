@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://b5owi8fcmr4wx"]
+
+[ext_resource type="Script" uid="uid://7ksleefn0chl" path="res://Objects/Player/player.gd" id="1_156m4"]
+[ext_resource type="Script" uid="uid://c06u4melly5nu" path="res://Objects/Player/movement_controller.gd" id="2_yw17q"]
+[ext_resource type="Script" uid="uid://coldc062d1h2k" path="res://Objects/Player/jump_controller.gd" id="3_l2ya6"]
+[ext_resource type="Script" uid="uid://djqhjpj3qph3a" path="res://Objects/Player/gravity_controller.gd" id="4_o1rty"]
+[ext_resource type="Shader" uid="uid://lrkm8ss6maxc" path="res://Objects/Player/LiquidGlass.gdshader" id="5_t45n6"]
+[ext_resource type="FontFile" uid="uid://db1rjxqqquakk" path="res://Assets/Orbitron/static/Orbitron-Regular.ttf" id="6_u7612"]
+[ext_resource type="FontFile" uid="uid://5cvn4a357aeg" path="res://Assets/Orbitron/static/Orbitron-Bold.ttf" id="7_bpp7x"]
+[ext_resource type="Script" uid="uid://co3suymjpaj48" path="res://Objects/Player/camera_pivot.gd" id="8_jllbl"]
+[ext_resource type="PackedScene" uid="uid://bpcbvkojuru06" path="res://Assets/Player/Player.blend" id="9_0mj7g"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_espde"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u7612"]
+shader = ExtResource("5_t45n6")
+shader_parameter/blur = 0.422000020045
+shader_parameter/warp_intensity = 0.3850000182875
+shader_parameter/strength_x = 5.530000262675
+shader_parameter/strength_y = 12.0
+shader_parameter/offset_x = 0.0
+shader_parameter/offset_y = 0.0
+shader_parameter/corner_radius = 0.3
+shader_parameter/edge_smoothness = 3.0
+shader_parameter/tint = Color(0.36443555, 0.7837123, 0.8455716, 0.12156863)
+shader_parameter/edge_highlight = Color(0.29954746, 0.29954746, 0.29954743, 0.3019608)
+shader_parameter/edge_width = 1.5
+shader_parameter/chromatic_strength = 5.0
+
+[sub_resource type="Theme" id="Theme_o1rty"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1766161627 node_paths=PackedStringArray("camera_ref")]
+script = ExtResource("1_156m4")
+camera_ref = NodePath("CameraPivot")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=384177055]
+shape = SubResource("CapsuleShape3D_espde")
+
+[node name="MovementController" type="Node" parent="." unique_id=1877101628]
+script = ExtResource("2_yw17q")
+
+[node name="JumpController" type="Node" parent="." unique_id=693177000]
+script = ExtResource("3_l2ya6")
+
+[node name="GravityController" type="Node" parent="." unique_id=1767158165]
+script = ExtResource("4_o1rty")
+
+[node name="CameraController" type="Node" parent="." unique_id=1222720390]
+
+[node name="MainUI" type="Control" parent="." unique_id=866553073]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MainUI" unique_id=2050674054]
+material = SubResource("ShaderMaterial_u7612")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.7
+anchor_right = 0.8
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MainUI/Panel" unique_id=1694965190]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.07
+anchor_right = 0.975
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_o1rty")
+theme_override_fonts/normal_font = ExtResource("6_u7612")
+theme_override_fonts/bold_font = ExtResource("7_bpp7x")
+text = "Hi this is a random fruiteger aero based fishing game"
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=972280011]
+script = ExtResource("8_jllbl")
+
+[node name="CameraPivotX" type="Node3D" parent="CameraPivot" unique_id=190972493]
+transform = Transform3D(1, 0, 0, 0, 0.5934189, -0.8048938, 0, 0.8048938, 0.5934189, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraPivotX" unique_id=1856336591]
+transform = Transform3D(1, 0, 0, 0, 0.8493404, 0.5278455, 0, -0.5278455, 0.8493404, 0, 2.394988, 2.1998224)
+
+[node name="Player" parent="." unique_id=1525637692 instance=ExtResource("9_0mj7g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
