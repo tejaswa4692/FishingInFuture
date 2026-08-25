@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://coldc062d1h2k" path="res://Objects/Player/jump_controller.gd" id="3_l2ya6"]
 [ext_resource type="Script" uid="uid://djqhjpj3qph3a" path="res://Objects/Player/gravity_controller.gd" id="4_o1rty"]
 [ext_resource type="Shader" uid="uid://lrkm8ss6maxc" path="res://Objects/Player/LiquidGlass.gdshader" id="5_t45n6"]
+[ext_resource type="Script" uid="uid://bth52ue13ykce" path="res://Objects/Player/bouey_script.gd" id="5_thffa"]
 [ext_resource type="FontFile" uid="uid://db1rjxqqquakk" path="res://Assets/Orbitron/static/Orbitron-Regular.ttf" id="6_u7612"]
 [ext_resource type="FontFile" uid="uid://5cvn4a357aeg" path="res://Assets/Orbitron/static/Orbitron-Bold.ttf" id="7_bpp7x"]
 [ext_resource type="Script" uid="uid://co3suymjpaj48" path="res://Objects/Player/camera_pivot.gd" id="8_jllbl"]
@@ -29,7 +30,9 @@ shader_parameter/chromatic_strength = 5.0
 
 [sub_resource type="Theme" id="Theme_o1rty"]
 
-[node name="Player" type="CharacterBody3D" unique_id=1766161627 node_paths=PackedStringArray("camera_ref")]
+[node name="Player" type="CharacterBody3D" unique_id=1766161627 node_paths=PackedStringArray("camera_ref") groups=["player"]]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_156m4")
 camera_ref = NodePath("CameraPivot")
 
@@ -45,7 +48,8 @@ script = ExtResource("3_l2ya6")
 [node name="GravityController" type="Node" parent="." unique_id=1767158165]
 script = ExtResource("4_o1rty")
 
-[node name="CameraController" type="Node" parent="." unique_id=1222720390]
+[node name="BoueyScript" type="Node" parent="." unique_id=564534519]
+script = ExtResource("5_thffa")
 
 [node name="MainUI" type="Control" parent="." unique_id=866553073]
 visible = false
@@ -88,7 +92,10 @@ script = ExtResource("8_jllbl")
 transform = Transform3D(1, 0, 0, 0, 0.5934189, -0.8048938, 0, 0.8048938, 0.5934189, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraPivotX" unique_id=1856336591]
-transform = Transform3D(1, 0, 0, 0, 0.8493404, 0.5278455, 0, -0.5278455, 0.8493404, 0, 2.394988, 2.1998224)
+transform = Transform3D(1, 0, 0, 0, 0.84934044, 0.52784556, 0, -0.52784556, 0.84934044, 0, 7.0023913, 5.5966935)
 
 [node name="Player" parent="." unique_id=1525637692 instance=ExtResource("9_0mj7g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="BoueySpawner" type="Marker3D" parent="Player" unique_id=1894196952]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.4622173, 1.6312466, -0.008515015)

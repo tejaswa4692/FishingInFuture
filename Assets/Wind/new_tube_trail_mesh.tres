@@ -1,0 +1,19 @@
+[gd_resource type="TubeTrailMesh" format=3 uid="uid://dlfgr5c4apb0c"]
+
+[sub_resource type="Curve" id="Curve_froaw"]
+_data = [Vector2(0, 0), 0.0, 7.40474, 0, 0, Vector2(0.232877, 1), 0.0, 0.0, 0, 0, Vector2(0.804795, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -7.8919, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8m1uj"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_keep_scale = true
+use_particle_trails = true
+
+[resource]
+material = SubResource("StandardMaterial3D_8m1uj")
+radius = 0.33
+sections = 12
+curve = SubResource("Curve_froaw")

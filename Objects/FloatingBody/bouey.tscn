@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://d2wxj5aen8rfq"]
+
+[ext_resource type="Script" uid="uid://c3fdgkpc5fjdf" path="res://Objects/FloatingBody/buoyancy_component.gd" id="1_66qsb"]
+[ext_resource type="Script" uid="uid://cb1xcgbpxgahj" path="res://Objects/FloatingBody/bouey.gd" id="1_ddp6x"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ijfyi"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_66qsb"]
+
+[node name="Bouey" type="RigidBody3D" unique_id=1979120386]
+collision_layer = 2
+collision_mask = 2
+mass = 0.2
+script = ExtResource("1_ddp6x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=756733658]
+mesh = SubResource("CapsuleMesh_ijfyi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=273378174]
+shape = SubResource("CapsuleShape3D_66qsb")
+
+[node name="BuoyancyComponent" type="Node3D" parent="." unique_id=1362803736 node_paths=PackedStringArray("float_points")]
+script = ExtResource("1_66qsb")
+float_points = [NodePath("../FloatFL"), NodePath("../FloatFR"), NodePath("../FloatBL"), NodePath("../FloatBR")]
+
+[node name="FloatFL" type="Node3D" parent="." unique_id=614914284 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.506, 0, 0.5)
+
+[node name="FloatFR" type="Node3D" parent="." unique_id=1840913553 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+
+[node name="FloatBL" type="Node3D" parent="." unique_id=880025354 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.506, 0, -0.5)
+
+[node name="FloatBR" type="Node3D" parent="." unique_id=291535692 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.5)
