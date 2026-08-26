@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 RetroResolution="*uid://c0jap216lc83o"
+Almighty="*uid://bq0v0dx525xcf"
 
 [display]
 
@@ -33,6 +34,7 @@ enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 
 folder_colors={
 "res://Assets/": "red",
+"res://Globals/": "purple",
 "res://Objects/": "green",
 "res://Sounds/": "orange"
 }

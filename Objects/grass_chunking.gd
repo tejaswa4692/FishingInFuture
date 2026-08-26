@@ -1,279 +1,309 @@
-class_name PlanetGrassScatterer
 extends Node3D
 
 @export var grass_mesh: Mesh
-@export var grass_shader: Shader
-@export var blades_per_chunk := 5000
-@export var auto_generate_on_ready: bool = false
+@export var grass_material: Material
+@export var blade_scale: float = 1.0
 
-## Base tint, same pattern as the rock scatterer -- set externally by
-## GravitySource with the planet's color_low before regenerate().
-@export var base_grass_color: Color = Color(0.35, 0.55, 0.25)
-@export var hue_jitter := 0.04
-@export var saturation_jitter := 0.15
-@export var value_jitter := 0.2
+@export var ground_mesh_instance: MeshInstance3D
+@export var player: Node3D
 
-const PLANET_RADIUS := 20.0
-const GRASS_RENDER_DISTANCE := 120.0
-const MIN_DISTANCE := 0.15   # much denser than rocks
-const CELL_SIZE := MIN_DISTANCE
+@export var chunk_size: float = 8.0
+@export var view_radius_chunks: int = 6
+@export var near_blade_count: int = 5000   ## also the count every chunk is generated at (max)
+@export var far_blade_count: int = 300
+@export var lod_falloff_chunks: float = 4.0
+@export var blade_min_distance: float = 0.15
+@export var update_interval: float = 0.25  ## how often spawn/despawn membership is re-checked
+@export var grass_seed: int = 12345
 
-var chunks: Dictionary = {}
-var _grass_material: ShaderMaterial
+var _triangle_buckets: Dictionary = {}
+var _buckets_ready: bool = false
 
-var _generation_thread: Thread = null
-var _is_generating := false
+var chunks: Dictionary = {}          # Vector2i -> Chunk (spawned, fully or partially generated)
+var _pending_keys: Dictionary = {}   # keys currently generating on WorkerThreadPool
+var _task_id_to_key: Dictionary = {}
+var _task_results: Dictionary = {}
+var _pending_task_ids: Array = []
+var _update_timer: float = 0.0
 
 class Chunk:
-	var center: Vector3
-	var node := Node3D.new()
-	var multimesh := MultiMesh.new()
-	var multimesh_instance := MultiMeshInstance3D.new()
-	var transforms: Array = []
-	var colors: Array = []
-	var custom_datas: Array = []
+	var node: Node3D = Node3D.new()
+	var multimesh: MultiMesh = MultiMesh.new()
+	var multimesh_instance: MultiMeshInstance3D = MultiMeshInstance3D.new()
+	var center: Vector3 = Vector3.ZERO
 
 
 func _ready() -> void:
-	_grass_material = ShaderMaterial.new()
-	_grass_material.shader = grass_shader
+	if grass_mesh == null:
+		push_error("GrassChunking: grass_mesh not assigned in Inspector")
+		return
+	if grass_material == null:
+		push_error("GrassChunking: grass_material not assigned in Inspector")
+		return
+	if ground_mesh_instance == null or ground_mesh_instance.mesh == null:
+		push_error("GrassChunking: ground_mesh_instance not set or has no Mesh assigned")
+		return
+	if player == null:
+		push_error("GrassChunking: player not set")
+		return
 
-	create_chunks()
-	if auto_generate_on_ready:
-		start_generation()
+	_build_triangle_buckets()
 
 
-func _exit_tree() -> void:
-	if _generation_thread != null:
-		_generation_thread.wait_to_finish()
-		_generation_thread = null
-
-
-var _visibility_timer := 0.0
 func _process(delta: float) -> void:
-	_visibility_timer += delta
-	if _visibility_timer >= 0.1:
-		_visibility_timer = 0.0
-		update_chunk_visibility(get_viewport().get_camera_3d())
-
-
-func set_base_color(color: Color) -> void:
-	base_grass_color = color
-
-
-func create_chunks() -> void:
-	chunks.clear()
-	for x in [-1, 0, 1]:
-		for y in [-1, 0, 1]:
-			for z in [-1, 0, 1]:
-				if x == 0 and y == 0 and z == 0:
-					continue
-				var chunk := Chunk.new()
-				chunk.center = Vector3(x, y, z) * PLANET_RADIUS
-				chunk.node.name = "GrassChunk_%d_%d_%d" % [x, y, z]
-
-				chunk.multimesh.mesh = grass_mesh
-				chunk.multimesh.transform_format = MultiMesh.TRANSFORM_3D
-				chunk.multimesh.use_colors = true
-				chunk.multimesh.use_custom_data = true
-				chunk.multimesh_instance.multimesh = chunk.multimesh
-				chunk.multimesh_instance.material_override = _grass_material
-				chunk.node.add_child(chunk.multimesh_instance)
-
-				add_child(chunk.node)
-				chunks[Vector3i(x, y, z)] = chunk
-
-
-func regenerate() -> void:
-	if _is_generating:
-		push_warning("PlanetGrassScatterer: generation already in progress, ignoring regenerate() call")
+	if not _buckets_ready:
 		return
-	start_generation()
 
+	# poll any WorkerThreadPool generation tasks that finished this frame
+	if _pending_task_ids.size() > 0:
+		var still_pending: Array = []
+		for task_id: int in _pending_task_ids:
+			if WorkerThreadPool.is_task_completed(task_id):
+				WorkerThreadPool.wait_for_task_completion(task_id)
+				var key: Vector2i = _task_id_to_key[task_id]
+				var data: Dictionary = _task_results[task_id]
+				_finish_chunk_build(key, data)
+				_task_id_to_key.erase(task_id)
+				_task_results.erase(task_id)
+				_pending_keys.erase(key)
+			else:
+				still_pending.append(task_id)
+		_pending_task_ids = still_pending
 
-func is_generating() -> bool:
-	return _is_generating
+	# cheap per-frame work: continuous LOD via visible_instance_count, no regeneration
+	_update_visible_counts()
 
-
-func start_generation() -> void:
-	if _is_generating:
+	_update_timer += delta
+	if _update_timer < update_interval:
 		return
-	_is_generating = true
+	_update_timer = 0.0
+	_update_chunk_membership()
 
-	var sphere: MeshInstance3D = get_parent().get_node("SourceMesh")
-	var arrays = sphere.mesh.surface_get_arrays(0)
+
+func _build_triangle_buckets() -> void:
+	var arrays: Array = ground_mesh_instance.mesh.surface_get_arrays(0)
 	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
 	var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
-	var sphere_transform: Transform3D = sphere.global_transform
-	var to_local_transform: Transform3D = self.global_transform.affine_inverse()
+	var ground_transform: Transform3D = ground_mesh_instance.global_transform
 
-	_generation_thread = Thread.new()
-	_generation_thread.start(
-		_generate_grass_threaded.bind(
-			vertices, indices, sphere_transform, to_local_transform,
-			blades_per_chunk,
-			base_grass_color, hue_jitter, saturation_jitter, value_jitter
-		)
+	_triangle_buckets.clear()
+
+	var tri_count: int = indices.size() / 3
+	for t: int in range(tri_count):
+		var a: Vector3 = ground_transform * vertices[indices[t * 3]]
+		var b: Vector3 = ground_transform * vertices[indices[t * 3 + 1]]
+		var c: Vector3 = ground_transform * vertices[indices[t * 3 + 2]]
+
+		var centroid: Vector3 = (a + b + c) / 3.0
+		var key: Vector2i = Vector2i(floori(centroid.x / chunk_size), floori(centroid.z / chunk_size))
+
+		if not _triangle_buckets.has(key):
+			_triangle_buckets[key] = []
+		_triangle_buckets[key].append([a, b, c])
+
+	_buckets_ready = true
+	print("GrassChunking: bucketed ", tri_count, " triangles into ", _triangle_buckets.size(), " chunks")
+
+
+## Distance-based target blade count, continuous (no step quantization) --
+## this is what makes the transition smooth, since it's evaluated every
+## frame and applied directly via visible_instance_count.
+func _blade_count_for_distance(dist_chunks: float) -> int:
+	var t: float = clamp(dist_chunks / lod_falloff_chunks, 0.0, 1.0)
+	return int(round(lerp(float(near_blade_count), float(far_blade_count), t)))
+
+
+## Cheap: no threads, no regeneration -- just tells the GPU how many of the
+## already-generated instances to draw this frame.
+func _update_visible_counts() -> void:
+	for key: Vector2i in chunks.keys():
+		var chunk: Chunk = chunks[key]
+		var dist_chunks: float = Vector2(chunk.center.x, chunk.center.z).distance_to(
+			Vector2(player.global_position.x, player.global_position.z)
+		) / chunk_size
+		var target: int = _blade_count_for_distance(dist_chunks)
+		chunk.multimesh.visible_instance_count = clampi(target, 0, chunk.multimesh.instance_count)
+
+
+func _update_chunk_membership() -> void:
+	var camera: Camera3D = get_viewport().get_camera_3d()
+	if camera == null:
+		return
+
+	var player_chunk: Vector2i = Vector2i(
+		floori(player.global_position.x / chunk_size),
+		floori(player.global_position.z / chunk_size)
 	)
 
+	var needed: Dictionary = {}
+	for dx: int in range(-view_radius_chunks, view_radius_chunks + 1):
+		for dz: int in range(-view_radius_chunks, view_radius_chunks + 1):
+			if Vector2(dx, dz).length() > view_radius_chunks:
+				continue
 
-## BACKGROUND THREAD. No Node/resource access -- plain data in, plain data out.
-func _generate_grass_threaded(
-	vertices: PackedVector3Array,
-	indices: PackedInt32Array,
-	sphere_transform: Transform3D,
-	to_local_transform: Transform3D,
-	target_per_chunk: int,
-	color_base: Color,
-	h_jitter: float,
-	s_jitter: float,
-	v_jitter: float) -> void:
-	var rng := RandomNumberGenerator.new()
-	rng.randomize()
+			var key: Vector2i = Vector2i(player_chunk.x + dx, player_chunk.y + dz)
+			if not _triangle_buckets.has(key):
+				continue
 
-	var grid := {}
-	var result: Dictionary = {}
-	var chunk_counts: Dictionary = {}
-	for cx in [-1, 0, 1]:
-		for cy in [-1, 0, 1]:
-			for cz in [-1, 0, 1]:
-				if cx == 0 and cy == 0 and cz == 0:
-					continue
-				var key := Vector3i(cx, cy, cz)
-				result[key] = {"transforms": [], "colors": [], "custom": []}
-				chunk_counts[key] = 0
+			needed[key] = true
 
-	var total_target: int = target_per_chunk * chunk_counts.size()
-	var placed := 0
-	var attempts := 0
-	var max_attempts := total_target * 15  # grass needs more attempts than rocks, packing is tighter
+			if chunks.has(key) or _pending_keys.has(key):
+				continue
 
-	while placed < total_target and attempts < max_attempts:
+			var chunk_center: Vector3 = Vector3(
+				(key.x + 0.5) * chunk_size,
+				player.global_position.y,
+				(key.y + 0.5) * chunk_size
+			)
+			if not camera.is_position_in_frustum(chunk_center):
+				continue
+
+			_spawn_chunk(key)
+
+	for key: Vector2i in chunks.keys():
+		if not needed.has(key):
+			_despawn_chunk(key)
+
+
+## Chunk is generated ONCE, always at near_blade_count (the max), regardless
+## of current distance -- density from here on is purely visible_instance_count.
+func _spawn_chunk(key: Vector2i) -> void:
+	_pending_keys[key] = true
+
+	var triangles: Array = _triangle_buckets[key]
+	var to_local_transform: Transform3D = self.global_transform.affine_inverse()
+
+	var task_id: int = WorkerThreadPool.add_task(
+		_generate_chunk_task.bind(key, triangles, to_local_transform)
+	)
+	_task_id_to_key[task_id] = key
+	_pending_task_ids.append(task_id)
+
+
+func _despawn_chunk(key: Vector2i) -> void:
+	if chunks.has(key):
+		chunks[key].node.queue_free()
+		chunks.erase(key)
+
+
+## Runs on a WorkerThreadPool worker thread. No Node/Resource access --
+## plain data in via bind, plain data written to _task_results, picked up
+## by _process() once WorkerThreadPool.is_task_completed() is true.
+func _generate_chunk_task(key: Vector2i, triangles: Array, to_local_transform: Transform3D) -> void:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = grass_seed + int(key.x) * 73856093 ^ int(key.y) * 19349663
+
+	var grid: Dictionary = {}
+	var transforms: Array = []
+	var customs: Array = []
+	var sum_pos: Vector3 = Vector3.ZERO
+
+	var tri_count: int = triangles.size()
+	var placed: int = 0
+	var attempts: int = 0
+	var max_attempts: int = near_blade_count * 20
+
+	while placed < near_blade_count and attempts < max_attempts and tri_count > 0:
 		attempts += 1
 
-		var tri = (rng.randi() % (indices.size() / 3)) * 3
-		var a = vertices[indices[tri]]
-		var b = vertices[indices[tri + 1]]
-		var c = vertices[indices[tri + 2]]
+		var tri: Array = triangles[rng.randi() % tri_count]
+		var a: Vector3 = tri[0]
+		var b: Vector3 = tri[1]
+		var c: Vector3 = tri[2]
 
-		var r1 = sqrt(rng.randf())
-		var r2 = rng.randf()
-		var pos = (1.0 - r1) * a + r1 * (1.0 - r2) * b + r1 * r2 * c
-		var normal = pos.normalized()
-		var world_pos = sphere_transform * pos
+		var r1: float = sqrt(rng.randf())
+		var r2: float = rng.randf()
+		var world_pos: Vector3 = (1.0 - r1) * a + r1 * (1.0 - r2) * b + r1 * r2 * c
 
-		var chunk_key = Vector3i(
-			1 if normal.x > 0.33 else (-1 if normal.x < -0.33 else 0),
-			1 if normal.y > 0.33 else (-1 if normal.y < -0.33 else 0),
-			1 if normal.z > 0.33 else (-1 if normal.z < -0.33 else 0)
-		)
-		if chunk_key == Vector3i.ZERO:
-			continue
-
-		# skip if that chunk already has its 5000
-		if chunk_counts[chunk_key] >= target_per_chunk:
-			continue
-
-		var cell = Vector3i(
-			floor(world_pos.x / CELL_SIZE),
-			floor(world_pos.y / CELL_SIZE),
-			floor(world_pos.z / CELL_SIZE)
+		var cell: Vector3i = Vector3i(
+			floori(world_pos.x / blade_min_distance),
+			floori(world_pos.y / blade_min_distance),
+			floori(world_pos.z / blade_min_distance)
 		)
 
-		var valid := true
-		for x in range(cell.x - 1, cell.x + 2):
-			for y in range(cell.y - 1, cell.y + 2):
-				for z in range(cell.z - 1, cell.z + 2):
-					var neighbor_key = Vector3i(x, y, z)
-					if !grid.has(neighbor_key):
+		var valid: bool = true
+		for x: int in range(cell.x - 1, cell.x + 2):
+			for y: int in range(cell.y - 1, cell.y + 2):
+				for z: int in range(cell.z - 1, cell.z + 2):
+					var nk: Vector3i = Vector3i(x, y, z)
+					if not grid.has(nk):
 						continue
-					for other in grid[neighbor_key]:
-						if world_pos.distance_to(other) < MIN_DISTANCE:
+					for other: Vector3 in grid[nk]:
+						if world_pos.distance_to(other) < blade_min_distance:
 							valid = false
 							break
-					if !valid:
+					if not valid:
 						break
-				if !valid:
+				if not valid:
 					break
-			if !valid:
+			if not valid:
 				break
-		if !valid:
+		if not valid:
 			continue
 
-		if !grid.has(cell):
+		if not grid.has(cell):
 			grid[cell] = []
 		grid[cell].append(world_pos)
 
-		var up = normal
-		var forward = Vector3.FORWARD
-		if abs(up.dot(forward)) > 0.99:
+		var normal: Vector3 = (b - a).cross(c - a).normalized()
+		if normal.dot(Vector3.UP) < 0.0:
+			normal = -normal
+		var forward: Vector3 = Vector3.FORWARD
+		if abs(normal.dot(forward)) > 0.99:
 			forward = Vector3.RIGHT
-		var right = forward.cross(up).normalized()
-		forward = up.cross(right).normalized()
+		var right: Vector3 = forward.cross(normal).normalized()
+		forward = normal.cross(right).normalized()
 
-		var basis = Basis(right, up, -forward)
-		basis = basis.rotated(up, rng.randf() * TAU)  # random yaw, blades still stand upright on surface
-
-		var scale = rng.randf_range(0.7, 1.3)
+		var basis: Basis = Basis(right, normal, -forward)
+		basis = basis.rotated(normal, rng.randf() * TAU)
+		var scale: float = rng.randf_range(0.85, 1.15) * blade_scale
 		basis = basis.scaled(Vector3.ONE * scale)
 
-		var transform = Transform3D(basis, world_pos)
-		transform = to_local_transform * transform
+		var transform: Transform3D = to_local_transform * Transform3D(basis, world_pos)
+		var custom: Color = Color(rng.randf(), rng.randf_range(0.6, 1.0), 0.0, 0.0)
 
-		var grass_color := Color.from_hsv(
-			fmod(color_base.h + rng.randf_range(-h_jitter, h_jitter) + 1.0, 1.0),
-			clamp(color_base.s + rng.randf_range(-s_jitter, s_jitter), 0.0, 1.0),
-			clamp(color_base.v + rng.randf_range(-v_jitter, v_jitter), 0.05, 1.0)
-		)
-
-		# .x = wind phase offset, .y = per-blade displacement strength,
-		# read as INSTANCE_CUSTOM in your grass shader
-		var custom := Color(rng.randf(), rng.randf_range(0.6, 1.0), 0.0, 0.0)
-
-		result[chunk_key]["transforms"].append(transform)
-		result[chunk_key]["colors"].append(grass_color)
-		result[chunk_key]["custom"].append(custom)
-		chunk_counts[chunk_key] += 1
+		transforms.append(transform)
+		customs.append(custom)
+		sum_pos += world_pos
 		placed += 1
 
-	call_deferred("_on_generation_complete", result)
+	var center: Vector3 = sum_pos / float(placed) if placed > 0 else Vector3.ZERO
+	_task_results[_task_id_for(key)] = {"center": center, "transforms": transforms, "customs": customs}
 
 
-func _on_generation_complete(result: Dictionary) -> void:
-	for chunk_key in result:
-		if !chunks.has(chunk_key):
-			continue
-		var chunk: Chunk = chunks[chunk_key]
-		chunk.transforms = result[chunk_key]["transforms"]
-		chunk.colors = result[chunk_key]["colors"]
-		chunk.custom_datas = result[chunk_key]["custom"]
-	build_multimeshes()
-	if _generation_thread != null:
-		_generation_thread.wait_to_finish()
-		_generation_thread = null
-	_is_generating = false
+func _task_id_for(key: Vector2i) -> int:
+	for task_id: int in _task_id_to_key.keys():
+		if _task_id_to_key[task_id] == key:
+			return task_id
+	return -1
 
 
-func build_multimeshes() -> void:
-	for chunk in chunks.values():
-		var mm: MultiMesh = chunk.multimesh
-		mm.instance_count = chunk.transforms.size()
-		for i in range(chunk.transforms.size()):
-			mm.set_instance_transform(i, chunk.transforms[i])
-			mm.set_instance_color(i, chunk.colors[i])
-			mm.set_instance_custom_data(i, chunk.custom_datas[i])
-
-
-func update_chunk_visibility(camera: Camera3D) -> void:
-	var planet_pos = get_parent().global_position
-	var distance = camera.global_position.distance_to(planet_pos)
-
-	if distance > GRASS_RENDER_DISTANCE:
-		for chunk in chunks.values():
-			chunk.node.visible = false
+func _finish_chunk_build(key: Vector2i, data: Dictionary) -> void:
+	var transforms: Array = data["transforms"]
+	if transforms.size() == 0:
 		return
 
-	var cam_dir = (camera.global_position - planet_pos).normalized()
-	for chunk in chunks.values():
-		var chunk_dir = chunk.center.normalized()
-		chunk.node.visible = chunk_dir.dot(cam_dir) > 0.2
+	var chunk: Chunk = Chunk.new()
+	chunk.node.name = "GrassChunk_%d_%d" % [key.x, key.y]
+	chunk.center = data["center"]
+
+	chunk.multimesh.mesh = grass_mesh
+	chunk.multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	chunk.multimesh.use_colors = true
+	chunk.multimesh.use_custom_data = true
+
+	var customs: Array = data["customs"]
+	chunk.multimesh.instance_count = transforms.size()
+	for i: int in range(transforms.size()):
+		chunk.multimesh.set_instance_transform(i, transforms[i])
+		chunk.multimesh.set_instance_color(i, Color.WHITE)
+		chunk.multimesh.set_instance_custom_data(i, customs[i])
+	chunk.multimesh.visible_instance_count = 0  # _update_visible_counts sets the real value next frame
+
+	chunk.multimesh_instance.multimesh = chunk.multimesh
+	chunk.multimesh_instance.material_override = grass_material
+	chunk.multimesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	chunk.node.add_child(chunk.multimesh_instance)
+	add_child(chunk.node)
+
+	chunks[key] = chunk

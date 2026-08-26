@@ -10,10 +10,8 @@ func _ready() -> void:
 	buoyancy_component.water = get_tree().get_first_node_in_group("water")
 
 func _on_body_entered(body: Node) -> void:
-	print("entered")
 	if body.is_in_group("player"):
 		player = body
-		print(body)
 
 
 func _on_body_exited(body: Node) -> void:

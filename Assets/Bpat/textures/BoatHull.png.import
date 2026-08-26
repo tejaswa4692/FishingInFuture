@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b04d88wxo0udo"
-path.s3tc="res://.godot/imported/Sample.png-74b880fd4746cbc0971656d7d42f5f03.s3tc.ctex"
+uid="uid://32lfggxc66vl"
+path.s3tc="res://.godot/imported/BoatHull.png-35ca87402562362c220b9432f9ab8f66.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/kenney_prototype-textures (1)/Sample.png"
-dest_files=["res://.godot/imported/Sample.png-74b880fd4746cbc0971656d7d42f5f03.s3tc.ctex"]
+source_file="res://Assets/Bpat/textures/BoatHull.png"
+dest_files=["res://.godot/imported/BoatHull.png-35ca87402562362c220b9432f9ab8f66.s3tc.ctex"]
 
 [params]
 

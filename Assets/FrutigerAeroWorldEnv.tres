@@ -1,14 +1,20 @@
 [gd_resource type="Environment" format=3 uid="uid://b2n17l5wocspu"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_isp5m"]
-sky_top_color = Color(0.478431, 0.619608, 0.8, 1)
-sky_horizon_color = Color(0.736, 0.7584, 0.8, 1)
-ground_bottom_color = Color(0.478431, 0.619608, 0.8, 1)
-ground_horizon_color = Color(0.736, 0.7584, 0.8, 1)
-ground_curve = 0.15
+[sub_resource type="Gradient" id="Gradient_xgqfx"]
+colors = PackedColorArray(0.018532602, 0, 0.29188627, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_018l8"]
+gradient = SubResource("Gradient_xgqfx")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_xgqfx"]
+rayleigh_color = Color(0.47843137, 0.61960787, 0.8, 1)
+ground_color = Color(0.7372549, 0.75686276, 0.8, 1)
+energy_multiplier = 3.15
+night_sky = SubResource("GradientTexture2D_018l8")
 
 [sub_resource type="Sky" id="Sky_nqdyj"]
-sky_material = SubResource("ProceduralSkyMaterial_isp5m")
+sky_material = SubResource("PhysicalSkyMaterial_xgqfx")
 
 [resource]
 background_mode = 2
