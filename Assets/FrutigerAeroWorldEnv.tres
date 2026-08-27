@@ -15,6 +15,7 @@ night_sky = SubResource("GradientTexture2D_018l8")
 
 [sub_resource type="Sky" id="Sky_nqdyj"]
 sky_material = SubResource("PhysicalSkyMaterial_xgqfx")
+radiance_size = 0
 
 [resource]
 background_mode = 2

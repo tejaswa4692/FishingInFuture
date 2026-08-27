@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://mb7hddtrxqjd"]
+
+[ext_resource type="PackedScene" uid="uid://bom6naftkdjtm" path="res://Assets/Fishes/ClownFish/ClownFish.blend" id="1_4epod"]
+
+[node name="ClownFish" type="Node3D" unique_id=2047108640]
+
+[node name="ClownFish" parent="." unique_id=648771352 instance=ExtResource("1_4epod")]

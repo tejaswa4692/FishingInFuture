@@ -4,9 +4,14 @@ class_name Player
 @onready var movement: MovementController = $MovementController
 @onready var jump: JumpController = $JumpController
 @onready var gravity_ctrl: GravityController = $GravityController
-@onready var playermesh: Node3D = $Player
+@onready var playermesh: Node3D = $Armature
 @onready var bouey_script: Node = $BoueyScript
-@onready var bouey_spawner: Marker3D = $Player/BoueySpawner
+@onready var bouey_spawner: Marker3D = $Armature/Marker3D
+@onready var animation_handler: Node = $AnimationHandler
+
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var item_list: ItemList = $MainUI/Inventory/Panel/ItemList
+
 var mount_target = null
 var casted: bool = false
 
@@ -14,6 +19,7 @@ var mounted: bool = false
 var canmove: bool = true
 
 @export var camera_ref: Node3D  
+
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("cast"):
@@ -24,12 +30,14 @@ func _input(event: InputEvent) -> void:
 			bouey_script.reel_back_in()
 
 func _physics_process(delta: float) -> void:
+	item_list.get_v_scroll_bar().hide()
 	if mounted:
 		return
 	gravity_ctrl.apply_gravity(self, delta)
 	if canmove:
 		jump.update(self, delta)
 		movement.update(self, delta, camera_ref)
+	animation_handler.handleanim(delta)
 	move_and_slide()
 	movement.face_direction(self, playermesh, delta)
 

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bj5vnff5ykkb2"
-path="res://.godot/imported/Shop.blend-853b6b37e8a48feccc9213413858cef4.scn"
+uid="uid://emeb1iaq53mp"
+path="res://.godot/imported/Dory.blend-f49e2f256b05e23fcd7189e2ad96ffc6.scn"
 
 [deps]
 
-source_file="res://Assets/Buildings/Shop.blend"
-dest_files=["res://.godot/imported/Shop.blend-853b6b37e8a48feccc9213413858cef4.scn"]
+source_file="res://Assets/Fishes/Dory/Dory.blend"
+dest_files=["res://.godot/imported/Dory.blend-f49e2f256b05e23fcd7189e2ad96ffc6.scn"]
 
 [params]
 
@@ -39,27 +39,14 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={
-"materials": {
-"GlossWhite": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://Assets/Buildings/GlossWhite.tres",
-"use_external/path": "uid://dko1i6mohh7tv"
-},
-"Light": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://Assets/Buildings/Light.tres",
-"use_external/path": "uid://ce605fnlo0mbg"
-}
-}
-}
+_subresources={}
 blender/nodes/visible=0
 blender/nodes/active_collection_only=false
 blender/nodes/punctual_lights=true
 blender/nodes/cameras=true
 blender/nodes/custom_properties=true
 blender/nodes/modifiers=1
-blender/meshes/vertex_colors=2
+blender/meshes/vertex_colors=1
 blender/meshes/uvs=true
 blender/meshes/normals=true
 blender/meshes/export_geometry_nodes_instances=false
@@ -73,4 +60,4 @@ blender/animation/limit_playback=true
 blender/animation/always_sample=true
 blender/animation/group_tracks=true
 gltf/naming_version=2
-gltf/texture_map_mode=0
+gltf/texture_map_mode=1

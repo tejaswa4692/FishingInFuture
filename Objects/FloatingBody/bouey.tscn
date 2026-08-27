@@ -2,35 +2,42 @@
 
 [ext_resource type="Script" uid="uid://c3fdgkpc5fjdf" path="res://Objects/FloatingBody/buoyancy_component.gd" id="1_66qsb"]
 [ext_resource type="Script" uid="uid://cb1xcgbpxgahj" path="res://Objects/FloatingBody/bouey.gd" id="1_ddp6x"]
+[ext_resource type="PackedScene" uid="uid://656fu7ogf8mc" path="res://Assets/Bobber/Bobber.blend" id="3_6y2xp"]
+[ext_resource type="PackedScene" uid="uid://iglcjaqcg0ba" path="res://Objects/Fish/fish(Global).tscn" id="4_vu1eq"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_ijfyi"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_66qsb"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_v2i7q"]
 
 [node name="Bouey" type="RigidBody3D" unique_id=1979120386]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 0
+collision_mask = 0
 mass = 0.2
 script = ExtResource("1_ddp6x")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=756733658]
-mesh = SubResource("CapsuleMesh_ijfyi")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=273378174]
-shape = SubResource("CapsuleShape3D_66qsb")
+[node name="Fish(Global)" parent="." unique_id=577741564 instance=ExtResource("4_vu1eq")]
 
 [node name="BuoyancyComponent" type="Node3D" parent="." unique_id=1362803736 node_paths=PackedStringArray("float_points")]
 script = ExtResource("1_66qsb")
 float_points = [NodePath("../FloatFL"), NodePath("../FloatFR"), NodePath("../FloatBL"), NodePath("../FloatBR")]
 
 [node name="FloatFL" type="Node3D" parent="." unique_id=614914284 groups=["float_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.506, 0, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.506, -0.3080083, 0.5)
 
 [node name="FloatFR" type="Node3D" parent="." unique_id=1840913553 groups=["float_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.3080083, 0.5)
 
 [node name="FloatBL" type="Node3D" parent="." unique_id=880025354 groups=["float_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.506, 0, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.506, -0.3080083, -0.5)
 
 [node name="FloatBR" type="Node3D" parent="." unique_id=291535692 groups=["float_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.3080083, -0.5)
+
+[node name="Bobber" parent="." unique_id=725418274 instance=ExtResource("3_6y2xp")]
+
+[node name="FishBitePos" type="Marker3D" parent="." unique_id=105956457]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=594326459]
+shape = SubResource("BoxShape3D_v2i7q")
+
+[node name="FishTimer" type="Timer" parent="." unique_id=1881639029]
+
+[connection signal="timeout" from="FishTimer" to="." method="bitecheck"]

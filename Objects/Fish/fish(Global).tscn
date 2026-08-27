@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://iglcjaqcg0ba"]
+
+[ext_resource type="Script" uid="uid://8y61d6xbqy8m" path="res://Objects/Fish/fish(global).gd" id="1_52u2f"]
+[ext_resource type="PackedScene" uid="uid://mb7hddtrxqjd" path="res://Objects/Fish/clown_fish.tscn" id="2_x1xkn"]
+[ext_resource type="PackedScene" uid="uid://emeb1iaq53mp" path="res://Assets/Fishes/Dory/Dory.blend" id="3_hnlse"]
+[ext_resource type="PackedScene" uid="uid://blwc4i1q702y7" path="res://Assets/Fishes/YellowFish/YellowFish.blend" id="4_u64i1"]
+
+[node name="Fish" type="Node3D" unique_id=568306176]
+script = ExtResource("1_52u2f")
+scenes = Array[PackedScene]([ExtResource("2_x1xkn"), ExtResource("3_hnlse"), ExtResource("4_u64i1")])

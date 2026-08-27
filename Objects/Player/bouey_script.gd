@@ -6,6 +6,7 @@ const BOUEY = preload("res://Objects/FloatingBody/bouey.tscn")
 
 var current_bouey: RigidBody3D = null
 
+var reeled_in_fish 
 
 func spawn_booey() -> void:
 	current_bouey = BOUEY.instantiate()
@@ -18,4 +19,8 @@ func spawn_booey() -> void:
 func reel_back_in() -> void:
 	if is_instance_valid(current_bouey):
 		current_bouey.reel_to(player)
+		if current_bouey.is_bit:
+			current_bouey.fish_global_.spawn_random_fish()
+			reeled_in_fish = current_bouey.fish_global_.fish
+			print(reeled_in_fish, "player")
 		player.casted = false

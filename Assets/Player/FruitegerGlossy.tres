@@ -5,15 +5,15 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_dj27s")
-shader_parameter/base_color = Color(0.10607468, 0.53486603, 0.7955708, 0.54901963)
-shader_parameter/base_alpha = 0.94000004465
-shader_parameter/refraction_strength = 0.05
-shader_parameter/specular_amount = 0.9
-shader_parameter/roughness_amount = 0.08
+shader_parameter/base_color = Color(3.7541986e-06, 0.6514296, 0.8126695, 0.54901963)
+shader_parameter/base_alpha = 0.90000004275
+shader_parameter/refraction_strength = 0.0
+shader_parameter/specular_amount = 1.0
+shader_parameter/roughness_amount = 0.1650000078375
 shader_parameter/metallic_amount = 0.0
 shader_parameter/rim_color = Color(0.13496682, 0.32138816, 0.4503088, 1)
-shader_parameter/rim_power = 2.5
-shader_parameter/rim_strength = 1.4
+shader_parameter/rim_power = 1.64000007464012
+shader_parameter/rim_strength = 3.0
 shader_parameter/iridescence_color_a = Color(0.6, 1, 0.9, 1)
 shader_parameter/iridescence_color_b = Color(0.8, 0.7, 1, 1)
 shader_parameter/iridescence_strength = 0.5150000244625

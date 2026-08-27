@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cfmm8ggg7y43n" path="res://Objects/FloatingBody/Bpat/boat.gd" id="1_7a1w0"]
 [ext_resource type="Script" uid="uid://c3fdgkpc5fjdf" path="res://Objects/FloatingBody/buoyancy_component.gd" id="2_u11i0"]
-[ext_resource type="Script" uid="uid://cvg2f26rwr7jg" path="res://Objects/player_mount_controller.gd" id="3_u11i0"]
+[ext_resource type="Script" uid="uid://cvg2f26rwr7jg" path="res://Objects/Player/player_mount_controller.gd" id="3_u11i0"]
 [ext_resource type="Script" uid="uid://ksqdt047eanm" path="res://Objects/FloatingBody/boat_controller.gd" id="4_b2k6l"]
 [ext_resource type="PackedScene" uid="uid://53hfjf38i7h6" path="res://Assets/Bpat/Boat.blend" id="5_8t626"]
 
@@ -53,7 +53,7 @@ script = ExtResource("4_b2k6l")
 turn_torque = 10.0
 
 [node name="MountPoint" type="Marker3D" parent="." unique_id=88265034]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5405233, -0.6349844)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3043554, -0.6349844)
 
 [node name="Boat" parent="." unique_id=939244035 instance=ExtResource("5_8t626")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -2.3279057, -1.3295844)
