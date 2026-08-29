@@ -1,0 +1,35 @@
+{
+	"ClownFish": {
+		"display_name": "Clownfish",
+		"price": 3,
+		"scene": "res://Assets/Fishes/ClownFish/ClownFish.glb",
+		"rarity": "common",
+		"spawnrate": 100,
+		"weight": {
+			"min": 2,
+			"max": 15
+		}
+	},
+	"BlueTang": {
+		"display_name": "Blue Tang",
+		"price": 5,
+		"scene": "res://Assets/Fishes/Dory/Dory.glb",
+		"rarity": "uncommon",
+		"spawnrate": 60,
+		"weight": {
+			"min": 3,
+			"max": 20
+		}
+	},
+	"YellowFish": {
+		"display_name": "Yellow Fish",
+		"price": 20,
+		"scene": "res://Assets/Fishes/YellowFish/YellowFish.glb",
+		"rarity": "rare",
+		"spawnrate": 100,
+		"weight": {
+			"min": 3,
+			"max": 20
+		}
+	}
+}

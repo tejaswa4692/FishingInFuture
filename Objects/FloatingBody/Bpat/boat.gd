@@ -5,6 +5,7 @@ var water: WaterPhysics
 var player = null
 var canControl: bool = false
 @onready var mount_point: Marker3D = $MountPoint
+var in_water: bool = false
 
 func _ready() -> void:
 	buoyancy_component.water = get_tree().get_first_node_in_group("water")

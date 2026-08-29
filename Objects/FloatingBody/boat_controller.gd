@@ -12,9 +12,9 @@ func _physics_process(_delta: float) -> void:
 
 func handleMovement() -> void:
 	var throttle := Input.get_axis("down", "up")
-	if throttle > 0:
+	if throttle > 0 and parent.in_water:
 		parent.apply_central_force(-parent.global_transform.basis.z * thrust_force * throttle)
-	elif throttle < 0:
+	elif throttle < 0 and parent.in_water:
 		parent.apply_central_force(-parent.global_transform.basis.z * reverse_force * throttle)
 		
 	var steering := Input.get_axis("right", "left")

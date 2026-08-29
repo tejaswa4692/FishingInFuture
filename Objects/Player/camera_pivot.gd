@@ -9,6 +9,17 @@ extends Node3D
 @export var max_dist_camera: float = 50.0
 @onready var camera_pivot_x: Node3D = $CameraPivotX
 @onready var camera_arm: SpringArm3D = $CameraPivotX/CameraArm
+@onready var camera_3d: Camera3D = $CameraPivotX/CameraArm/Camera3D
+@onready var color_rect: ColorRect = $CameraPivotX/CameraArm/Camera3D/ColorRect
+
+func _ready() -> void:
+	color_rect.hide()
+
+func _process(delta: float) -> void:
+	if camera_3d.global_position.y <= -5.217:
+		color_rect.show()
+	else:
+		color_rect.hide()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:

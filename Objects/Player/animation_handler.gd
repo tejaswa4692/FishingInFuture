@@ -10,6 +10,12 @@ extends Node
 var talking: bool = false
 var current_state: String = ""
 
+@export var fishing_rod_mesh: MeshInstance3D
+@export var player_hand_ik: CCDIK3D
+
+func _ready() -> void:
+	fishing_rod_mesh.visible = false
+	player_hand_ik.active = false
 
 func _process(delta: float) -> void:
 	handleanim(delta)

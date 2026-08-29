@@ -11,6 +11,7 @@ const MAX_SUBMERSION: float = 1.0
 
 func _physics_process(delta: float) -> void:
 	if water == null or float_points.is_empty():
+		body.in_water = false
 		return
 	var t: float = float(Time.get_ticks_msec()) / 1000.0
 	var submerged_count: int = 0
@@ -26,6 +27,7 @@ func _physics_process(delta: float) -> void:
 			var damp_force: float = -point_velocity.y * point_damping
 			var force: Vector3 = Vector3.UP * (spring_force + damp_force)
 			body.apply_force(force, offset)
+	body.in_water = submerged_count > 0
 	if submerged_count > 0:
 		body.linear_velocity *= (1.0 - water_linear_damp * delta)
 		body.angular_velocity *= (1.0 - water_angular_damp * delta)

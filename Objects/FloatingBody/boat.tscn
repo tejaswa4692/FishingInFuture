@@ -25,16 +25,16 @@ script = ExtResource("2_u11i0")
 float_points = [NodePath("../FloatFL"), NodePath("../FloatFR"), NodePath("../FloatBL"), NodePath("../FloatBR")]
 
 [node name="FloatFL" type="Node3D" parent="." unique_id=1609666752 groups=["float_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8695493, -2.7375379, 4.1607566)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8695493, -2.2535434, 4.1607566)
 
 [node name="FloatFR" type="Node3D" parent="." unique_id=938434389 groups=["float_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7784638, -2.7375379, 4.1603956)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7784638, -2.2535434, 4.1603956)
 
 [node name="FloatBL" type="Node3D" parent="." unique_id=618066079 groups=["float_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9126711, -2.7375379, -4.9876986)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9126711, -2.2535434, -4.9876986)
 
 [node name="FloatBR" type="Node3D" parent="." unique_id=2057612873 groups=["float_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8894266, -2.7375379, -4.933463)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8894266, -2.2535434, -4.933463)
 
 [node name="PlayerArea" type="Area3D" parent="." unique_id=396016817]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05522871, -1.0140415, -3.6623898)
@@ -50,6 +50,7 @@ script = ExtResource("3_u11i0")
 
 [node name="BoatController" type="Node" parent="." unique_id=1965470567]
 script = ExtResource("4_b2k6l")
+thrust_force = 50.0
 turn_torque = 10.0
 
 [node name="MountPoint" type="Marker3D" parent="." unique_id=88265034]

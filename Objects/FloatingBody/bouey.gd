@@ -14,6 +14,8 @@ var reel_target: Node3D = null
 @onready var fish_timer: Timer = $FishTimer
 var is_bit: bool = false
 
+var in_water: bool = false
+
 func _ready() -> void:
 	randomize()
 	fish_timer.wait_time = 5
@@ -46,7 +48,7 @@ func bitecheck() -> void:
 
 	fish_timer.start()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if reeling_in and is_instance_valid(reel_target):
 		var direction := reel_target.global_position - global_position
 		var distance := direction.length()
@@ -54,7 +56,17 @@ func _physics_process(delta: float) -> void:
 		if distance <= reel_stop_distance:
 			reeling_in = false
 			reel_target = null
+			player_fishing_anim_reset()
 			queue_free()
 			return
 
 		linear_velocity = direction.normalized() * reel_speed
+
+ 
+func player_fishing_anim_reset() -> void:  #idk why i make life harder for myself
+	var player = get_tree().get_first_node_in_group("player")
+	player.fishing_animation.play("RESET")
+	player.player_hand_ik.active = false
+	player.fishing_rod_mesh.visible = false
+	
+	player.player_hand_ik.influence = 0

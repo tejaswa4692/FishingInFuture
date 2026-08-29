@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://dm76fgw1yuwuj"]
+
+[ext_resource type="PackedScene" uid="uid://bj5vnff5ykkb2" path="res://Assets/Buildings/Shop.blend" id="1_aggeh"]
+[ext_resource type="Script" uid="uid://c6a8uc1rlh5lk" path="res://Objects/World/shopScript.gd" id="1_g78rf"]
+[ext_resource type="PackedScene" uid="uid://o1vxd0kcj4y" path="res://Assets/Player/Player.glb" id="2_od6oe"]
+[ext_resource type="PackedScene" uid="uid://bom6naftkdjtm" path="res://Assets/Fishes/ClownFish/ClownFish.blend" id="3_ufj0u"]
+[ext_resource type="Shader" uid="uid://ct15y5yacmi3m" path="res://Objects/Shaders/LavaLamp.gdshader" id="4_b0mf0"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g78rf"]
+height = 2.291504
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4kmp0"]
+render_priority = 0
+shader = ExtResource("4_b0mf0")
+shader_parameter/blob_color_hot = Color(1, 0.25, 0.05, 1)
+shader_parameter/blob_color_cool = Color(0.6, 0.05, 0.4, 1)
+shader_parameter/liquid_color = Color(0.05, 0.02, 0.1, 1)
+shader_parameter/blob_speed = 0.6
+shader_parameter/blob_scale = 0.35
+shader_parameter/blob_count = 6
+shader_parameter/glow_strength = 1.5
+shader_parameter/smoothness = 0.3
+shader_parameter/liquid_alpha = 0.35
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uo3b0"]
+height = 3.3583984
+radius = 1.6821289
+
+[node name="ShopScene" type="Node3D" unique_id=753759313]
+script = ExtResource("1_g78rf")
+
+[node name="Shop" parent="." unique_id=829687825 instance=ExtResource("1_aggeh")]
+
+[node name="Player" parent="." unique_id=675602929 instance=ExtResource("2_od6oe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3589816, 2.177527, 0)
+
+[node name="ClownFish" parent="." unique_id=344480237 instance=ExtResource("3_ufj0u")]
+transform = Transform3D(1.7650003, 0, 0, 0, 1.765, 0, 0, 0, 1.7650003, -7.6554394, 6.267357, -2.2291603)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=616175518]
+transform = Transform3D(0.49999997, 0, -0.86602545, 0, 1, 0, 0.86602545, 0, 0.49999997, -5.760048, 3.9369552, 5.3674145)
+mesh = SubResource("CylinderMesh_g78rf")
+surface_material_override/0 = SubResource("ShaderMaterial_4kmp0")
+
+[node name="PlayerArea" type="Area3D" parent="." unique_id=2143752716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.570387, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerArea" unique_id=1189631157]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0523095, 0.015654564, 0)
+shape = SubResource("CylinderShape3D_uo3b0")
+
+[connection signal="body_entered" from="PlayerArea" to="." method="_player_entered"]
+[connection signal="body_exited" from="PlayerArea" to="." method="_player_exited"]

@@ -1,7 +1,6 @@
 [gd_scene format=4 uid="uid://b3ijsm6ew5i0b"]
 
 [ext_resource type="Script" uid="uid://cxq6f3qyg4veb" path="res://Objects/World/world.gd" id="1_ly88b"]
-[ext_resource type="PackedScene" uid="uid://bpcbvkojuru06" path="res://Assets/Player/Player.blend" id="2_kd7ls"]
 [ext_resource type="Environment" uid="uid://b2n17l5wocspu" path="res://Assets/FrutigerAeroWorldEnv.tres" id="3_krqqq"]
 [ext_resource type="PackedScene" uid="uid://b5owi8fcmr4wx" path="res://Objects/Player/player.tscn" id="4_ftawk"]
 [ext_resource type="AudioStream" uid="uid://bhmkidkg3ebfb" path="res://Sounds/The past and now -LEASE-.mp3" id="5_bxflb"]
@@ -18,18 +17,17 @@
 [ext_resource type="ArrayMesh" uid="uid://b8n4dcfumpg6t" path="res://Assets/Coral/Coral by Poly by Google - 4KUXdtDdgHR/PUSHILIN_coral.obj" id="16_3oad2"]
 [ext_resource type="ArrayMesh" uid="uid://chenxpm0qbdv" path="res://Assets/Coral/underwater_enviro_coral by God Appeasers - 0CrDBiCnI5e/model.obj" id="17_ipo5f"]
 [ext_resource type="AudioStream" uid="uid://c4m5h7jtatwu4" path="res://Assets/Player/GrassRustling.mp3" id="18_b7ttx"]
-[ext_resource type="PackedScene" uid="uid://bj5vnff5ykkb2" path="res://Assets/Buildings/Shop.blend" id="19_q4ly4"]
 [ext_resource type="PackedScene" uid="uid://bom6naftkdjtm" path="res://Assets/Fishes/ClownFish/ClownFish.blend" id="20_foatb"]
 [ext_resource type="Shader" uid="uid://bthxn7u6kha2q" path="res://Objects/Shaders/Bubble.gdshader" id="21_o4vg6"]
+[ext_resource type="PackedScene" uid="uid://dm76fgw1yuwuj" path="res://Objects/World/shop_scene.tscn" id="22_kd7ls"]
 [ext_resource type="PackedScene" uid="uid://blwc4i1q702y7" path="res://Assets/Fishes/YellowFish/YellowFish.blend" id="22_krqqq"]
 [ext_resource type="PackedScene" uid="uid://emeb1iaq53mp" path="res://Assets/Fishes/Dory/Dory.blend" id="23_ftawk"]
-[ext_resource type="Shader" uid="uid://ct15y5yacmi3m" path="res://Objects/Shaders/LavaLamp.gdshader" id="24_ftawk"]
-[ext_resource type="PackedScene" uid="uid://bkpvypnhcrns6" path="res://Assets/Buildings/LavaLamp.blend" id="25_bxflb"]
+[ext_resource type="PackedScene" uid="uid://ocjcwss3alb8" path="res://Assets/WorldMap/ActualDecck.blend" id="23_krqqq"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1f02y"]
-size = Vector2(500, 500)
-subdivide_width = 20
-subdivide_depth = 20
+size = Vector2(1000, 1000)
+subdivide_width = 50
+subdivide_depth = 50
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpbh2"]
 albedo_color = Color(0.8131034, 0.6705837, 0.26516843, 1)
@@ -118,21 +116,6 @@ shader_parameter/noise_scale = 0.5
 material = SubResource("ShaderMaterial_7ow63")
 radial_segments = 32
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_hk2b7"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uo3b0"]
-render_priority = 0
-shader = ExtResource("24_ftawk")
-shader_parameter/blob_color_hot = Color(1, 0.25, 0.05, 1)
-shader_parameter/blob_color_cool = Color(0.6, 0.05, 0.4, 1)
-shader_parameter/liquid_color = Color(0.05, 0.02, 0.1, 1)
-shader_parameter/blob_speed = 0.6
-shader_parameter/blob_scale = 0.35
-shader_parameter/blob_count = 6
-shader_parameter/glow_strength = 1.5
-shader_parameter/smoothness = 0.3
-shader_parameter/liquid_alpha = 0.35
-
 [node name="World" type="Node3D" unique_id=1352001312]
 script = ExtResource("1_ly88b")
 
@@ -156,7 +139,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.375967, -5.2165413, 0.6311
 script = ExtResource("6_hk2b7")
 
 [node name="Water" type="MeshInstance3D" parent="WaterBody" unique_id=1109064427]
-transform = Transform3D(1, 0, 0, 0, 0.9999972, -0.0023561923, 0, 0.0023561923, 0.9999972, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.032093048, -3.8146973e-06, -0.062306404)
 mesh = SubResource("PlaneMesh_1f02y")
 surface_material_override/0 = ExtResource("7_hyd6g")
 
@@ -173,7 +156,7 @@ process_material = ExtResource("10_oh1e0")
 draw_pass_1 = ExtResource("11_fulex")
 
 [node name="Boat" parent="." unique_id=1250474141 instance=ExtResource("12_v4ykt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.996037, -2.9627624, 0.6311841)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9921265, -2.9627624, -48.02043)
 
 [node name="SeaBed" type="MeshInstance3D" parent="." unique_id=1433705676]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -7.64093, 0)
@@ -213,15 +196,6 @@ stream = ExtResource("18_b7ttx")
 volume_db = -9.01
 autoplay = true
 
-[node name="Shop" parent="." unique_id=2004302926 instance=ExtResource("19_q4ly4")]
-transform = Transform3D(0.49999997, 0, 0.86602545, 0, 1, 0, -0.86602545, 0, 0.49999997, -20.916643, 1.8196824, -15.141924)
-
-[node name="Player2" parent="Shop" unique_id=1215479456 instance=ExtResource("2_kd7ls")]
-transform = Transform3D(1.4988251, 0, -0.059360564, 0, 1.5, 0, 0.059360564, 0, 1.4988251, -5.959174, 1.7253706, 0.27049828)
-
-[node name="ClownFish" parent="Shop" unique_id=648771352 instance=ExtResource("20_foatb")]
-transform = Transform3D(1.7650003, 0, 0, 0, 1.765, 0, 0, 0, 1.7650003, -7.6554394, 6.267357, -2.2291603)
-
 [node name="ClownFish" parent="." unique_id=1347834706 instance=ExtResource("20_foatb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.87956, -6.125046, 9.131521)
 
@@ -243,10 +217,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9791355, 0, 0)
 [node name="ClownFish" parent="YellowFish" unique_id=936030307 instance=ExtResource("20_foatb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7573051, 0, -1.4443364)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=346627011]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.588139, -1.7044761)
-mesh = SubResource("CylinderMesh_hk2b7")
-surface_material_override/0 = SubResource("ShaderMaterial_uo3b0")
+[node name="ShopScene" parent="." unique_id=753759313 instance=ExtResource("22_kd7ls")]
+transform = Transform3D(0.6988639, 0, 0.71525466, 0, 1, 0, -0.71525466, 0, 0.6988639, -14.284412, 1.2974153, -24.071438)
 
-[node name="LavaLamp" parent="." unique_id=2108069546 instance=ExtResource("25_bxflb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.137245, 4.7613482, -7.4626055)
+[node name="ActualDecck" parent="." unique_id=1164269361 instance=ExtResource("23_krqqq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9372356, -4.3552, -44.579193)
