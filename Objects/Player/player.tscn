@@ -9,6 +9,7 @@
 [ext_resource type="FontFile" uid="uid://db1rjxqqquakk" path="res://Assets/Orbitron/static/Orbitron-Regular.ttf" id="6_u7612"]
 [ext_resource type="Script" uid="uid://bxw2dgmfu6n2v" path="res://Objects/Player/animation_handler.gd" id="6_xtia4"]
 [ext_resource type="FontFile" uid="uid://5cvn4a357aeg" path="res://Assets/Orbitron/static/Orbitron-Bold.ttf" id="7_bpp7x"]
+[ext_resource type="Script" uid="uid://bi5ojsjv7jo0d" path="res://Objects/Player/player_dialog_controller.gd" id="7_kmg4v"]
 [ext_resource type="Script" uid="uid://co3suymjpaj48" path="res://Objects/Player/camera_pivot.gd" id="8_jllbl"]
 [ext_resource type="FontFile" uid="uid://bvnogq15ftj3" path="res://Assets/Orbitron/static/Orbitron-Black.ttf" id="10_yemeo"]
 [ext_resource type="Material" uid="uid://lkod4xdl2a3t" path="res://Assets/Player/FruitegerGlossy.tres" id="11_xtia4"]
@@ -915,6 +916,9 @@ script = ExtResource("6_xtia4")
 fishing_rod_mesh = NodePath("../Armature/FishingMarker/FishingRodMesh")
 player_hand_ik = NodePath("../Armature/Skeleton3D/PlayerHandIK")
 
+[node name="PlayerDialogController" type="Node" parent="." unique_id=385035404]
+script = ExtResource("7_kmg4v")
+
 [node name="MainUI" type="Control" parent="." unique_id=866553073]
 layout_mode = 3
 anchors_preset = 15
@@ -924,7 +928,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TextBox" type="Control" parent="MainUI" unique_id=685190403]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -933,6 +936,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="MainUI/TextBox" unique_id=2050674054]
+visible = false
 material = SubResource("ShaderMaterial_u7612")
 layout_mode = 1
 anchors_preset = -1
@@ -1080,7 +1084,7 @@ bones/0/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 bones/0/enabled = true
 bones/0/position = Vector3(0, 0, 0)
 bones/0/rotation = Quaternion(0, 0, 0, 1)
-bones/0/scale = Vector3(1, 0.971041, 0.9999999)
+bones/0/scale = Vector3(1, 0.9696637, 0.9999999)
 bones/1/name = "Head"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8815112e-26, 0.8777374, 2.1827873e-10)
@@ -1093,7 +1097,7 @@ bones/2/parent = 0
 bones/2/rest = Transform3D(1, 8.704147e-14, -2.3841712e-07, -5.686882e-08, -0.9711362, -0.238524, -2.3153696e-07, 0.23852547, -0.97113025, 1.3875521e-17, 0.81524765, 0.29886425)
 bones/2/enabled = true
 bones/2/position = Vector3(1.3875521e-17, 0.81524765, 0.29886425)
-bones/2/rotation = Quaternion(0.9886859, -1.0747383e-08, -1.18723825e-07, 0.15000054)
+bones/2/rotation = Quaternion(0.98846984, -1.0577144e-08, -1.1873912e-07, 0.151418)
 bones/2/scale = Vector3(1, 0.99999994, 0.9999938)
 bones/3/name = "LeftHandIK"
 bones/3/parent = 2
@@ -1107,7 +1111,7 @@ bones/4/parent = 0
 bones/4/rest = Transform3D(1, 3.552714e-15, 2.3841864e-07, -7.400557e-08, -0.95060545, 0.31040192, 2.2664199e-07, -0.31040186, -0.9506057, 6.636119e-18, 0.847851, -0.28527948)
 bones/4/enabled = true
 bones/4/position = Vector3(6.636119e-18, 0.847851, -0.28527948)
-bones/4/rotation = Quaternion(0.982389, -1.5177399e-08, 1.1823918e-07, -0.18684733)
+bones/4/rotation = Quaternion(0.98212016, -1.5007853e-08, 1.1826082e-07, -0.18825571)
 bones/4/scale = Vector3(1, 1, 1.0000002)
 bones/5/name = "RightHandIK"
 bones/5/parent = 4
@@ -1154,7 +1158,7 @@ settings/0/joints/1/rotation_axis = 3
 settings/0/joints/1/limitation = null
 
 [node name="FishingMarker" type="Marker3D" parent="Armature" unique_id=831309191]
-transform = Transform3D(0.90645725, 0.42229646, -0.00094804383, -0.4222963, 0.90645814, 0.00020999866, 0.00094804214, 0.00021000042, 1.0000007, 0.6500884, 0.64271027, 0.2839617)
+transform = Transform3D(0.90645725, 0.42229646, -0.0009480439, -0.4222963, 0.90645814, 0.00020999863, 0.0009480422, 0.00021000048, 1.0000007, 0.6500884, 0.64271027, 0.2839617)
 
 [node name="FishingRodMesh" type="MeshInstance3D" parent="Armature/FishingMarker" unique_id=72903121]
 transform = Transform3D(-4.371139e-08, -0.0022449633, -0.9999975, 0.0022449633, 0.9999975, -0.0022449577, 0.9999975, -0.0022449647, 4.996149e-06, 0, 1.0044308, -0.0022549033)

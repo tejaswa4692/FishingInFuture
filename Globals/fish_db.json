@@ -31,5 +31,16 @@
 			"min": 3,
 			"max": 20
 		}
+	},
+	"Shark": {
+		"display_name": "Shark",
+		"price": 20,
+		"scene": "res://Assets/Fishes/Shark/Shark.glb",
+		"rarity": "rare",
+		"spawnrate": 100,
+		"weight": {
+			"min": 30,
+			"max": 50
+		}
 	}
 }

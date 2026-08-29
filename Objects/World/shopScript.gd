@@ -20,8 +20,12 @@ func _input(_event: InputEvent) -> void:
 				inventory.player.bubbles_counter.text = "Bubbles: " + str(inventory.playerTotalHoldingCost)
 			player.display_sold(calculated_price)
 			inventory.playerInventory.clear()
-
-
+	if Input.is_action_just_pressed("debug_speak") and PlayerTextDialog.current_state == PlayerTextDialog.DialogState.WAITING:
+		PlayerTextDialog.add_dialog([
+			"Hi :)",
+			"I am the humble shopkeeper"
+		])
+		get_viewport().set_input_as_handled()
 
 func _player_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):

@@ -16,6 +16,9 @@ class_name Player
 @onready var player_hand_ik: CCDIK3D = $Armature/Skeleton3D/PlayerHandIK
 @onready var fishing_rod_mesh: MeshInstance3D = $Armature/FishingMarker/FishingRodMesh
 @onready var fish_caught_display: RichTextLabel = $MainUI/Fish_caught_display
+@onready var TextDialog: RichTextLabel = $MainUI/TextBox/Panel/RichTextLabel
+@onready var player_dialog_controller: Node = $PlayerDialogController
+
 
 
 var sellable_cost: int = 0
