@@ -1,17 +1,17 @@
 This is the todo/goals list for this game
 
 1. Make more fishes [X]
-	Added Shark, 
+	Added Shark, Added Koi
 2. Make a jetski []
 3. Make a cosmetic shop []
 	Make cosmetics for that shop and let player buy them
-4. 3D model an actual fishing rod []
+4. 3D model an actual fishing rod [X]
 5. 3D model fishing rod tiers []
 6. Make it so that if u use a fishing rod u get rarity multiplyer for that tier []
 	(for example an uncommon rod boosts chance to catch uncommon fishes and so and so make one rod targetic every tier)
-7. Make the shop interior better []
+7. Make the shop interior better [....] 
 8. Make daynight cycle and have fishes spawn in those timess []
 9. 3D model and make a place to buy more vehicles []
 10. Add a house where player can enter to save his progress []
 11. Fix the dialog bs [X] 
-12. Make the dialog able to sell and have more information []
+12. Make the dialog able to sell and have more information [X]

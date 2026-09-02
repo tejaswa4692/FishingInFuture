@@ -111,3 +111,9 @@ func start_talking() -> void:
 
 func stop_talking() -> void:
 	talking = false
+
+func show_rod() -> void:
+	fishing_rod_mesh.visible = true
+
+func hide_rod() -> void:
+	fishing_rod_mesh.visible = false

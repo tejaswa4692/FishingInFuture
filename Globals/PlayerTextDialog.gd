@@ -20,8 +20,9 @@ func _input(_event: InputEvent) -> void:
 
 
 func add_dialog(dialog: Array[String]) -> void:
-	dialog_awaiting.append_array(dialog)
+	
 	if current_state == DialogState.SPEAKING:
 		return
+	dialog_awaiting.append_array(dialog)
 	current_state = DialogState.SPEAKING
 	player.player_dialog_controller.start_speaking()

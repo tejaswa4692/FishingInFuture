@@ -40,3 +40,10 @@ func face_direction(body: CharacterBody3D, mesh: Node3D, delta: float) -> void:
 	if horizontal.length() > 0.1:
 		var target_angle := atan2(-horizontal.x, -horizontal.z) + deg_to_rad(mesh_forward_offset_deg)
 		mesh.rotation.y = lerp_angle(mesh.rotation.y, target_angle, rotation_speed * delta)
+
+func stop(body: CharacterBody3D, delta: float) -> void:
+	var horizontal := Vector3(body.velocity.x, 0, body.velocity.z)
+	var frict := friction if body.is_on_floor() else friction * air_control
+	horizontal = horizontal.move_toward(Vector3.ZERO, frict * delta)
+	body.velocity.x = horizontal.x
+	body.velocity.z = horizontal.z

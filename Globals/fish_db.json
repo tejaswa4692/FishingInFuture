@@ -42,5 +42,16 @@
 			"min": 30,
 			"max": 50
 		}
+	},
+	"Koi": {
+		"display_name": "Koi Fish",
+		"price": 20,
+		"scene": "res://Assets/Fishes/KoiFish/Koi.glb",
+		"rarity": "common",
+		"spawnrate": 100,
+		"weight": {
+			"min": 30,
+			"max": 50
+		}
 	}
 }

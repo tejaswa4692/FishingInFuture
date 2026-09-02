@@ -15,13 +15,14 @@ class_name Player
 @onready var fishing_animation: AnimationPlayer = $FishingAnimation
 @onready var player_hand_ik: CCDIK3D = $Armature/Skeleton3D/PlayerHandIK
 @onready var fishing_rod_mesh: MeshInstance3D = $Armature/FishingMarker/FishingRodMesh
+
 @onready var fish_caught_display: RichTextLabel = $MainUI/Fish_caught_display
 @onready var TextDialog: RichTextLabel = $MainUI/TextBox/Panel/RichTextLabel
 @onready var player_dialog_controller: Node = $PlayerDialogController
+@onready var save_script: Node = $save_script
 
+var fishing_rod_tier: int = 0
 
-
-var sellable_cost: int = 0
 
 var mount_target = null
 var casted: bool = false
@@ -42,21 +43,34 @@ func _input(_event: InputEvent) -> void:
 			fishing_animation.play("Cast")
 		else:
 			fishing_animation.play("Retract")
-	if Input.is_action_just_pressed("debug_show_sell"):
-		print("showing")
-		display_caught_text("hi", 0)
+	#if Input.is_action_just_pressed("debug_show_sell"):
+		#print("showing")
+		#display_caught_text("hi", 0)
 
 func _physics_process(delta: float) -> void:
 	item_list.get_v_scroll_bar().hide()
 	if mounted:
 		return
+
 	gravity_ctrl.apply_gravity(self, delta)
 	if canmove:
 		jump.update(self, delta)
 		movement.update(self, delta, camera_ref)
-	animation_handler.handleanim(delta)
+	else:
+		movement.stop(self, delta)
+
 	move_and_slide()
 	movement.face_direction(self, playermesh, delta)
+	animation_handler.handleanim(delta)   # now reads post-move state
+
+	if global_position.y <= -5:
+		gravity_ctrl.gravity = -7
+		movement.speed = 4
+		movement.acceleration = 10
+	else:
+		gravity_ctrl.gravity = 20
+		movement.speed = 8
+		movement.acceleration = 20
 
 func mount(target: Node3D, mount_point: Node3D) -> void:
 	mounted = true
@@ -92,4 +106,3 @@ func display_sold(sell_price: int) -> void:
 	tween.tween_property(fish_caught_display, "modulate:a", 1, 0.5)
 	tween.tween_interval(0.5)
 	tween.tween_property(fish_caught_display, "modulate:a", 0, 0.5)
-	pass

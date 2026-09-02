@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://cvg2f26rwr7jg" path="res://Objects/Player/player_mount_controller.gd" id="3_u11i0"]
 [ext_resource type="Script" uid="uid://ksqdt047eanm" path="res://Objects/FloatingBody/boat_controller.gd" id="4_b2k6l"]
 [ext_resource type="PackedScene" uid="uid://53hfjf38i7h6" path="res://Assets/Bpat/Boat.blend" id="5_8t626"]
+[ext_resource type="Script" uid="uid://rm7hvt8hhewh" path="res://Objects/FloatingBody/save_script.gd" id="6_wgvd2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b2k6l"]
 size = Vector3(3.658144, 1.396169, 9.430013)
@@ -12,7 +13,7 @@ size = Vector3(3.658144, 1.396169, 9.430013)
 [sub_resource type="BoxShape3D" id="BoxShape3D_7a1w0"]
 size = Vector3(4, 2.9294434, 9.45813)
 
-[node name="Boat" type="RigidBody3D" unique_id=1250474141]
+[node name="Boat" type="RigidBody3D" unique_id=1250474141 groups=["saveable"]]
 script = ExtResource("1_7a1w0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1343632458]
@@ -50,14 +51,20 @@ script = ExtResource("3_u11i0")
 
 [node name="BoatController" type="Node" parent="." unique_id=1965470567]
 script = ExtResource("4_b2k6l")
-thrust_force = 50.0
+thrust_force = 10.0
 turn_torque = 10.0
+
+[node name="save_script" type="Node" parent="." unique_id=59085199]
+script = ExtResource("6_wgvd2")
 
 [node name="MountPoint" type="Marker3D" parent="." unique_id=88265034]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3043554, -0.6349844)
 
 [node name="Boat" parent="." unique_id=939244035 instance=ExtResource("5_8t626")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -2.3279057, -1.3295844)
+
+[node name="front_foam" type="Node3D" parent="." unique_id=2054033775]
+transform = Transform3D(0.62000316, 0, -0.7845993, 0.55925417, 0.701378, 0.44193175, 0.55030066, -0.71278954, 0.43485656, -0.5416685, -1.9948468, -4.5711093)
 
 [connection signal="body_entered" from="PlayerArea" to="." method="_on_body_entered"]
 [connection signal="body_exited" from="PlayerArea" to="." method="_on_body_exited"]

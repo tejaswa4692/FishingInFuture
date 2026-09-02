@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://blltbikgbop26"]
+
+[ext_resource type="Script" uid="uid://ccy35wggjqi53" path="res://Assets/NPC/NPC.gd" id="1_ofwpb"]
+[ext_resource type="PackedScene" uid="uid://o1vxd0kcj4y" path="res://Assets/Player/Player.glb" id="2_gcgjt"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hk2b7"]
+height = 1.5639648
+radius = 1.1391602
+
+[node name="NPC" type="Node3D" unique_id=852323681]
+script = ExtResource("1_ofwpb")
+
+[node name="NPCMesh" parent="." unique_id=1916000806 groups=["idle_npc"] instance=ExtResource("2_gcgjt")]
+transform = Transform3D(1.625, 0, 0, 0, 1.625, 0, 0, 0, 1.625, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="NPCMesh" unique_id=1987325880]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0.9734856, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPCMesh/Area3D" unique_id=1549838424]
+transform = Transform3D(0.9999998, 0, 0, 0, 0.9999998, 0, 0, 0, 0.9999998, 0, -0.21801722, 0)
+shape = SubResource("CylinderShape3D_hk2b7")
+
+[connection signal="body_entered" from="NPCMesh/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="NPCMesh/Area3D" to="." method="_on_area_3d_body_exited"]

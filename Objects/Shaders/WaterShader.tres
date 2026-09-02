@@ -17,8 +17,8 @@ seamless = true
 [resource]
 render_priority = 0
 shader = ExtResource("1_w8j4m")
-shader_parameter/shallow_color = Color(0.3734012, 0.8403514, 0.94057816, 0.6)
-shader_parameter/deep_color = Color(6.256998e-07, 0.3245663, 0.5726647, 0.8235294)
+shader_parameter/shallow_color = Color(0.4255265, 0.85880584, 0.9558683, 0.6)
+shader_parameter/deep_color = Color(0.18501428, 0.6167569, 0.99998647, 0.8235294)
 shader_parameter/foam_color = Color(1, 1, 1, 1)
 shader_parameter/depth_fade_distance = 0.36500001407762
 shader_parameter/wave_height = 0.15
@@ -32,5 +32,5 @@ shader_parameter/foam_width = 1.6810000798475
 shader_parameter/foam_noise_scale = 1.0
 shader_parameter/detail_normal = SubResource("NoiseTexture2D_r001o")
 shader_parameter/detail_normal_scale = 0.10000000149012
-shader_parameter/detail_normal_strength = 0.1150000054625
+shader_parameter/detail_normal_strength = 0.022000001045
 shader_parameter/detail_normal_speed = Vector2(0.03, 0.02)

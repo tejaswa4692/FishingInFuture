@@ -15,7 +15,7 @@ extends Node3D
 func _ready() -> void:
 	color_rect.hide()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if camera_3d.global_position.y <= -5.217:
 		color_rect.show()
 	else:

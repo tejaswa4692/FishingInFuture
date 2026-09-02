@@ -41,6 +41,10 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
+"@MATERIAL:3": {
+"use_external/enabled": true,
+"use_external/path": "uid://dko1i6mohh7tv"
+},
 "GlossWhite": {
 "use_external/enabled": true,
 "use_external/fallback_path": "res://Assets/Buildings/GlossWhite.tres",

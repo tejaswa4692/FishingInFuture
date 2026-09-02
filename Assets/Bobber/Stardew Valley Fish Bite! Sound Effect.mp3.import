@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dbdm5w3yibyqs"
+path="res://.godot/imported/Stardew Valley Fish Bite! Sound Effect.mp3-a4f46b6cbb321ee13496b8a4e02d232e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Bobber/Stardew Valley Fish Bite! Sound Effect.mp3"
+dest_files=["res://.godot/imported/Stardew Valley Fish Bite! Sound Effect.mp3-a4f46b6cbb321ee13496b8a4e02d232e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
