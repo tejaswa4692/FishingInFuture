@@ -7,9 +7,9 @@ This is the todo/goals list for this game
 
 
 Todays todo
-1 hour straight 3D modelling the fishes via lapse
-30-45 mins of straight filling the details in the fish db and gameplay testing to balance the game
-1 hour of making the jetski
+1 hour straight 3D modelling the fishes via lapse [X]
+30-45 mins of straight filling the details in the fish db and gameplay testing to balance the game [X]
+1 hour of making the jetski 
 1 hour of making the place where you can actually buy the jetski and other vehicles
 
 Later todo

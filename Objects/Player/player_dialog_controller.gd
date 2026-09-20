@@ -3,6 +3,8 @@ extends Node
 @onready var panel: Control = $"../MainUI/TextBox/Panel"
 signal dialogue_advanced
 
+var current_tween: Tween
+
 func pop_in() -> void:
 	panel.pivot_offset = panel.size / 2.0
 	panel.scale = Vector2(0.6, 0.6)
@@ -23,6 +25,13 @@ func pop_out() -> void:
 	close_tween.parallel().tween_property(panel, "modulate:a", 0.0, 0.15)
 	await close_tween.finished
 
+func _process(_delta: float) -> void:
+	if current_tween and current_tween.is_valid():
+		if Input.is_action_pressed("debug_speak"):
+			current_tween.set_speed_scale(2.0)
+		else:
+			current_tween.set_speed_scale(0.8)
+
 func start_speaking() -> void:
 	var box: Control = text_dialog.get_parent()
 	box.show()
@@ -35,14 +44,14 @@ func start_speaking() -> void:
 		text_dialog.text = text_to_show
 		text_dialog.visible_characters = 0
 		var char_count := text_dialog.get_total_character_count()
-		var tween := create_tween()
-		tween.tween_property(
+		current_tween = create_tween()
+		current_tween.tween_property(
 			text_dialog,
 			"visible_characters",
 			char_count,
 			char_count * 0.03
 		)
-		await tween.finished
+		await current_tween.finished
 		if is_confirm and is_last_line:
 			await PlayerTextDialog.dialog_confirmed
 		else:

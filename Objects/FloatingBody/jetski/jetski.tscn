@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://crgfrnjn3164v"]
+
+[ext_resource type="Script" uid="uid://cfmm8ggg7y43n" path="res://Objects/FloatingBody/Bpat/boat.gd" id="1_a5lrq"]
+[ext_resource type="Script" uid="uid://c3fdgkpc5fjdf" path="res://Objects/FloatingBody/buoyancy_component.gd" id="1_qqb0v"]
+[ext_resource type="Script" uid="uid://cvg2f26rwr7jg" path="res://Objects/Player/player_mount_controller.gd" id="2_a5lrq"]
+[ext_resource type="Script" uid="uid://ksqdt047eanm" path="res://Objects/FloatingBody/boat_controller.gd" id="3_xup2b"]
+[ext_resource type="Script" uid="uid://rm7hvt8hhewh" path="res://Objects/FloatingBody/save_script.gd" id="4_1i087"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4d6aw"]
+size = Vector3(6.0400243, 1.396169, 8.515787)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nsmug"]
+size = Vector3(4, 2.9294434, 9.45813)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v2i7q"]
+size = Vector3(6.064514, 1, 8.795532)
+
+[node name="Jetski" type="RigidBody3D" unique_id=1736897792 groups=["saveable"]]
+script = ExtResource("1_a5lrq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=752061349]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.020409107, -0.07539797, -0.047065824)
+shape = SubResource("BoxShape3D_4d6aw")
+
+[node name="BuoyancyComponent" type="Node3D" parent="." unique_id=480974854 node_paths=PackedStringArray("float_points")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.3116133, 0.30827522)
+script = ExtResource("1_qqb0v")
+float_points = [NodePath("../FloatFL"), NodePath("../FloatFR"), NodePath("../FloatBL"), NodePath("../FloatBR")]
+
+[node name="FloatFL" type="Node3D" parent="." unique_id=1781748409 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8695493, -0.25354338, 4.1607566)
+
+[node name="FloatFR" type="Node3D" parent="." unique_id=99028173 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7784638, -0.25354338, 4.1603956)
+
+[node name="FloatBL" type="Node3D" parent="." unique_id=20137213 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9126711, -0.25354338, -4.9876986)
+
+[node name="FloatBR" type="Node3D" parent="." unique_id=942400454 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8894266, -0.25354338, -4.933463)
+
+[node name="PlayerArea" type="Area3D" parent="." unique_id=1050854657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05522871, -1.0140415, -3.6623898)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerArea" unique_id=121570800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.962491, 3.229065)
+shape = SubResource("BoxShape3D_nsmug")
+
+[node name="PlayerMountController" type="Node" parent="." unique_id=622458735]
+script = ExtResource("2_a5lrq")
+
+[node name="BoatController" type="Node" parent="." unique_id=1126681229]
+script = ExtResource("3_xup2b")
+thrust_force = 50.0
+turn_torque = 6.0
+
+[node name="save_script" type="Node" parent="." unique_id=385534263]
+script = ExtResource("4_1i087")
+
+[node name="MountPoint" type="Marker3D" parent="." unique_id=861227002]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6956446, -0.6349844)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1950188720]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013580322, 0, 0.0115356445)
+mesh = SubResource("BoxMesh_v2i7q")
+
+[connection signal="body_entered" from="PlayerArea" to="." method="_on_body_entered"]
+[connection signal="body_exited" from="PlayerArea" to="." method="_on_body_exited"]

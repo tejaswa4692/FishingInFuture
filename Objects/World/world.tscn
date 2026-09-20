@@ -6,6 +6,8 @@
 [ext_resource type="AudioStream" uid="uid://bhmkidkg3ebfb" path="res://Sounds/The past and now -LEASE-.mp3" id="5_bxflb"]
 [ext_resource type="Script" uid="uid://g7u6ug2bn5h" path="res://Objects/World/water_body.gd" id="6_hk2b7"]
 [ext_resource type="Material" uid="uid://djytvdob3p6jo" path="res://Objects/Shaders/WaterShader.tres" id="7_hyd6g"]
+[ext_resource type="PackedScene" uid="uid://drke4rcrsmxw4" path="res://Assets/Fishes/pinkfish/pinkfish.blend" id="7_krqqq"]
+[ext_resource type="PackedScene" uid="uid://dobc8gtcrj6yi" path="res://Assets/Fishes/bluethinfish/blue.blend" id="8_ftawk"]
 [ext_resource type="Material" uid="uid://egpru16uvbme" path="res://Assets/Grass/FrutigerAero/Stylized3DGrass.tres" id="9_362gn"]
 [ext_resource type="Material" uid="uid://b2yufj73vspfh" path="res://Assets/Wind/WindTrails.tres" id="10_oh1e0"]
 [ext_resource type="TubeTrailMesh" uid="uid://dlfgr5c4apb0c" path="res://Assets/Wind/new_tube_trail_mesh.tres" id="11_fulex"]
@@ -15,10 +17,19 @@
 [ext_resource type="Shader" uid="uid://bwkvrpueypl5s" path="res://Assets/Grass/GrassNew.gdshader" id="15_qxi1e"]
 [ext_resource type="AudioStream" uid="uid://c4m5h7jtatwu4" path="res://Assets/Player/GrassRustling.mp3" id="18_b7ttx"]
 [ext_resource type="PackedScene" uid="uid://bvb2j2bxff3yx" path="res://Objects/World/cosmetic_shop.tscn" id="20_6pqk6"]
+[ext_resource type="PackedScene" uid="uid://cdppcns31wjpu" path="res://Assets/Fishes/Dory/Dory.glb" id="20_ly88b"]
+[ext_resource type="PackedScene" uid="uid://crgfrnjn3164v" path="res://Objects/FloatingBody/jetski/jetski.tscn" id="20_oh1e0"]
+[ext_resource type="PackedScene" uid="uid://b2vnyt3lrsmk4" path="res://Assets/Fishes/bass/bass.blend" id="21_kd7ls"]
 [ext_resource type="Shader" uid="uid://bthxn7u6kha2q" path="res://Objects/Shaders/Bubble.gdshader" id="21_o4vg6"]
 [ext_resource type="PackedScene" uid="uid://dm76fgw1yuwuj" path="res://Objects/World/shop_scene.tscn" id="22_kd7ls"]
+[ext_resource type="PackedScene" uid="uid://cuqax4ipcl0js" path="res://Assets/Fishes/anglerfish/angler.blend" id="22_krqqq"]
 [ext_resource type="PackedScene" uid="uid://ocjcwss3alb8" path="res://Assets/WorldMap/ActualDecck.blend" id="23_krqqq"]
+[ext_resource type="PackedScene" uid="uid://b748dod0n50f1" path="res://Assets/Fishes/KoiFish/Koi.glb" id="25_bxflb"]
 [ext_resource type="PackedScene" uid="uid://blltbikgbop26" path="res://Objects/NPC/npc.tscn" id="25_hk2b7"]
+[ext_resource type="PackedScene" uid="uid://dik61gjr06r8b" path="res://Assets/Fishes/ClownFish/ClownFish.glb" id="26_hk2b7"]
+[ext_resource type="PackedScene" uid="uid://bdprpo62xfio5" path="res://Assets/Fishes/SilverFish/SilverFish.glb" id="27_hyd6g"]
+[ext_resource type="PackedScene" uid="uid://2iuhdtpwsfes" path="res://Assets/Fishes/YellowFish/YellowFish.glb" id="28_rqu7l"]
+[ext_resource type="PackedScene" uid="uid://okcrvfqut7mh" path="res://Assets/Fishes/Shark/Shark.glb" id="29_362gn"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1f02y"]
 size = Vector2(1000, 1000)
@@ -106,6 +117,9 @@ shader_parameter/noise_scale = 0.5
 material = SubResource("ShaderMaterial_7ow63")
 radial_segments = 32
 
+[sub_resource type="BoxMesh" id="BoxMesh_v2i7q"]
+size = Vector3(1, 12.270386, 21.617432)
+
 [node name="World" type="Node3D" unique_id=1352001312]
 script = ExtResource("1_ly88b")
 
@@ -132,6 +146,12 @@ script = ExtResource("6_hk2b7")
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.05321884, -0.060317993, 0.008990288)
 mesh = SubResource("PlaneMesh_1f02y")
 surface_material_override/0 = ExtResource("7_hyd6g")
+
+[node name="pinkfish" parent="WaterBody" unique_id=330854287 instance=ExtResource("7_krqqq")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.8962765, 11.767178, 8.522465)
+
+[node name="blue" parent="WaterBody" unique_id=755553748 instance=ExtResource("8_ftawk")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 5.8636456, 12.308737, 10.549589)
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="." unique_id=823179810]
 material_override = ExtResource("9_362gn")
@@ -232,3 +252,37 @@ area_size = Vector2(9.211046, 9.011183)
 
 [node name="CosmeticShop2" parent="." unique_id=1574533369 instance=ExtResource("20_6pqk6")]
 transform = Transform3D(0.97770405, 0, 0.2099874, 0, 1, 0, -0.2099874, 0, 0.97770405, -18.525206, 0.92936707, 13.096506)
+
+[node name="Dory" parent="." unique_id=987964179 instance=ExtResource("20_ly88b")]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 29.267506, 6.7545547, 6.789262)
+
+[node name="bass" parent="." unique_id=122232309 instance=ExtResource("21_kd7ls")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 29.217667, 6.7838717, 4.5419984)
+
+[node name="angler" parent="." unique_id=2082553898 instance=ExtResource("22_krqqq")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.17397, 6.8938055, 2.260467)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=7791624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.87026, 5.635193, 11.283569)
+mesh = SubResource("BoxMesh_v2i7q")
+
+[node name="Koi" parent="." unique_id=758407612 instance=ExtResource("25_bxflb")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.259453, 6.8123875, 13.006462)
+
+[node name="Dory2" parent="." unique_id=1231727002 instance=ExtResource("20_ly88b")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 29.220264, 6.805099, 14.5431795)
+
+[node name="ClownFish" parent="." unique_id=285870021 instance=ExtResource("26_hk2b7")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 29.127363, 6.6791034, 16.627207)
+
+[node name="SilverFish" parent="." unique_id=1705580168 instance=ExtResource("27_hyd6g")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.09608, 6.651553, 18.349064)
+
+[node name="YellowFish" parent="." unique_id=1136692937 instance=ExtResource("28_rqu7l")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 29.209938, 6.481922, 20.05144)
+
+[node name="Shark" parent="." unique_id=721389000 instance=ExtResource("29_362gn")]
+transform = Transform3D(0.9976464, -0.06856916, 0, 0.06856916, 0.9976464, 0, 0, 0, 1, 28.936436, 9.47079, 7.3986716)
+
+[node name="Jetski" parent="." unique_id=1736897792 instance=ExtResource("20_oh1e0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.329768, -4.3552, -51.748013)

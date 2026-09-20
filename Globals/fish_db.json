@@ -1,68 +1,112 @@
 {
 	"ClownFish": {
 		"display_name": "Clownfish",
-		"price": 3,
+		"price": 5,
 		"scene": "res://Assets/Fishes/ClownFish/ClownFish.glb",
 		"rarity": "common",
-		"spawnrate": 100,
+		"spawnrate": 80,
 		"weight": {
-			"min": 2,
-			"max": 15
+			"min": 1,
+			"max": 5
 		}
 	},
 	"BlueTang": {
 		"display_name": "Blue Tang",
-		"price": 5,
+		"price": 8,
 		"scene": "res://Assets/Fishes/Dory/Dory.glb",
-		"rarity": "uncommon",
-		"spawnrate": 60,
+		"rarity": "common",
+		"spawnrate": 55,
 		"weight": {
-			"min": 3,
-			"max": 20
+			"min": 1,
+			"max": 6
 		}
 	},
-	"YellowFish": {
-		"display_name": "Yellow Fish",
-		"price": 20,
-		"scene": "res://Assets/Fishes/YellowFish/YellowFish.glb",
-		"rarity": "rare",
-		"spawnrate": 100,
+	"angelfish": {
+		"display_name": "Angelfish",
+		"price": 12,
+		"scene": "res://Assets/Fishes/pinkfish/pinkfish.glb",
+		"rarity": "common",
+		"spawnrate": 40,
 		"weight": {
-			"min": 3,
-			"max": 20
-		}
-	},
-	"Shark": {
-		"display_name": "Shark",
-		"price": 20,
-		"scene": "res://Assets/Fishes/Shark/Shark.glb",
-		"rarity": "rare",
-		"spawnrate": 100,
-		"weight": {
-			"min": 30,
-			"max": 50
+			"min": 1,
+			"max": 5
 		}
 	},
 	"Koi": {
 		"display_name": "Koi Fish",
-		"price": 20,
+		"price": 18,
 		"scene": "res://Assets/Fishes/KoiFish/Koi.glb",
 		"rarity": "common",
-		"spawnrate": 100,
+		"spawnrate": 25,
 		"weight": {
-			"min": 30,
-			"max": 50
+			"min": 3,
+			"max": 15
+		}
+	},
+	"bass": {
+		"display_name": "Sea Bass",
+		"price": 25,
+		"scene": "res://Assets/Fishes/bass/bass.glb",
+		"rarity": "uncommon",
+		"spawnrate": 70,
+		"weight": {
+			"min": 5,
+			"max": 20
+		}
+	},
+	"buefish": {
+		"display_name": "Bluefish",
+		"price": 35,
+		"scene": "res://Assets/Fishes/bass/bass.glb",
+		"rarity": "uncommon",
+		"spawnrate": 45,
+		"weight": {
+			"min": 8,
+			"max": 25
 		}
 	},
 	"silverfish": {
 		"display_name": "Silver Fish",
-		"price": 30,
+		"price": 45,
 		"scene": "res://Assets/Fishes/SilverFish/SilverFish.glb",
+		"rarity": "uncommon",
+		"spawnrate": 25,
+		"weight": {
+			"min": 10,
+			"max": 30
+		}
+	},
+	"anglerfish": {
+		"display_name": "Angler Fish",
+		"price": 120,
+		"scene": "res://Assets/Fishes/anglerfish/angler.glb",
 		"rarity": "rare",
-		"spawnrate": 40,
+		"spawnrate": 25,
+		"weight": {
+			"min": 15,
+			"max": 50
+		}
+	},
+	"Shark": {
+		"display_name": "Shark",
+		"price": 250,
+		"scene": "res://Assets/Fishes/Shark/Shark.glb",
+		"rarity": "rare",
+		"spawnrate": 8,
 		"weight": {
 			"min": 30,
-			"max": 70
+			"max": 100
+		}
+	},
+	"YellowFish": {
+		"display_name": "Yellow Fish",
+		"price": 180,
+		"scene": "res://Assets/Fishes/YellowFish/YellowFish.glb",
+		"rarity": "rare",
+		"spawnrate": 15,
+		"weight": {
+			"min": 15,
+			"max": 45
 		}
 	}
 }
