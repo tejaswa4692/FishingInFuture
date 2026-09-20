@@ -5,6 +5,8 @@ var water
 @export var point_damping: float = 2.0
 @export var water_linear_damp: float = 0.3
 @export var water_angular_damp: float = 0.3
+@export var waves_affect_buoyancy: bool = true
+@export var flat_water_level: float = 0.0
 @onready var body: RigidBody3D = get_parent()
 
 const MAX_SUBMERSION: float = 1.0
@@ -17,7 +19,7 @@ func _physics_process(delta: float) -> void:
 	var submerged_count: int = 0
 	for point in float_points:
 		var world_pos: Vector3 = point.global_position
-		var wave_y: float = water.get_wave_world_y(Vector2(world_pos.x, world_pos.z), t)
+		var wave_y: float = water.get_wave_world_y(Vector2(world_pos.x, world_pos.z), t) if waves_affect_buoyancy else flat_water_level
 		var submersion: float = clamp(wave_y - world_pos.y, 0.0, MAX_SUBMERSION)
 		if submersion > 0.0:
 			submerged_count += 1

@@ -11,6 +11,7 @@ extends Node3D
 @onready var camera_arm: SpringArm3D = $CameraPivotX/CameraArm
 @onready var camera_3d: Camera3D = $CameraPivotX/CameraArm/Camera3D
 @onready var color_rect: ColorRect = $CameraPivotX/CameraArm/Camera3D/ColorRect
+@onready var player: CharacterBody3D = get_parent()
 
 func _ready() -> void:
 	color_rect.hide()
@@ -22,14 +23,15 @@ func _process(_delta: float) -> void:
 		color_rect.hide()
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
-		var dir_x := -1.0 if invert_x else 1.0
-		rotate_y(-event.relative.x * sensitivity * dir_x)
-		var dir_y := -1.0 if invert_y else 1.0
-		var new_pitch = camera_pivot_x.rotation_degrees.x + event.relative.y * sensitivity * 57.2958 * dir_y
-		camera_pivot_x.rotation_degrees.x = clamp(new_pitch, min_pitch_deg, max_pitch_deg)
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			camera_arm.spring_length = clamp(camera_arm.spring_length + 0.5, min_dist_camera, max_dist_camera)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			camera_arm.spring_length = clamp(camera_arm.spring_length - 0.5, min_dist_camera, max_dist_camera)
+	if !player.ui_open:
+		if event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+			var dir_x := -1.0 if invert_x else 1.0
+			rotate_y(-event.relative.x * sensitivity * dir_x)
+			var dir_y := -1.0 if invert_y else 1.0
+			var new_pitch = camera_pivot_x.rotation_degrees.x + event.relative.y * sensitivity * 57.2958 * dir_y
+			camera_pivot_x.rotation_degrees.x = clamp(new_pitch, min_pitch_deg, max_pitch_deg)
+		if event is InputEventMouseButton:
+			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				camera_arm.spring_length = clamp(camera_arm.spring_length + 0.5, min_dist_camera, max_dist_camera)
+			elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				camera_arm.spring_length = clamp(camera_arm.spring_length - 0.5, min_dist_camera, max_dist_camera)

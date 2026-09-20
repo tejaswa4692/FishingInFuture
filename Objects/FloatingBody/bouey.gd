@@ -23,12 +23,15 @@ var reel_target: Node3D = null
 @onready var fish_global_: Node3D = $"Fish(Global)"
 @onready var fish_timer: Timer = $FishTimer
 var is_bit: bool = false
-
+var current_bouey_upgrade = 0
 var in_water: bool = false
+
+@onready var bouey_mesh = $Bobber/Sphere #TODO MAKE THIS UPGRADE POSSIBLE IN FUTURE
+const BOBBER_MAT_2 = preload("uid://wptswcflmbqn")
 
 func _ready() -> void:
 	randomize()
-	fish_timer.wait_time = randi_range(5, 20)
+	generate_random_wait_time()
 	fish_timer.start()
 	buoyancy_component.water = get_tree().get_first_node_in_group("water")
 
@@ -40,20 +43,18 @@ func reel_to(target: Node3D) -> void:
 func bitecheck() -> void:
 	if !is_bit:
 		var rng = randi_range(0, 100)
-		print(rng)
 		if rng >= 30: # DEBUG CHANGE LATER [CHANGED]
 			is_bit = true
 			apply_central_impulse(Vector3(0, -10, 0))
 			fish_timer.wait_time = 0.3
 		else:
-			fish_timer.wait_time = randi_range(5, 20)
+			generate_random_wait_time()
 	else:
 		if fish_struggle_time.is_stopped():
 			fish_struggle_time.wait_time = randi_range(2, 5)
 			fish_struggle_time.start()
 			if !fish_bite_sound.playing:
 				fish_bite_sound.play()
-			print("struggle time" + str(fish_struggle_time.wait_time))
 		var random_impulse := Vector3(
 			randf_range(-0.5, 0.5),
 			randf_range(-10.0, -3.0),
@@ -90,5 +91,35 @@ func player_fishing_anim_reset() -> void:  #idk why i make life harder for mysel
 func fish_has_earned_its_freedom() -> void:
 	fish_timer.wait_time = randi_range(5, 20)
 	fish_timer.start()
-	print("fish can go")
 	is_bit = false
+
+
+func set_bobber_stage(stage: int) -> void:
+	var mat: StandardMaterial3D = BOBBER_MAT_2.duplicate()
+	var stage_color: Color
+	match stage:
+		0:
+			stage_color = Color.BURLYWOOD
+		1:
+			stage_color = Color.RED
+		2:
+			stage_color = Color.BLUE
+		3:
+			stage_color = Color.GREEN
+		_:
+			push_warning("set_bobber_stage: unhandled stage %d" % stage)
+			return
+	mat.albedo_color = stage_color
+	bouey_mesh.set_surface_override_material(1, mat)
+
+func generate_random_wait_time() -> void:
+	match current_bouey_upgrade:
+		0: #Default player spawns with this 
+			fish_timer.wait_time = randi_range(10, 15)
+		1: # The red upgrade
+			fish_timer.wait_time = randi_range(7, 15)
+		2: # The blue upgrade
+			fish_timer.wait_time = randi_range(5, 10)
+		3: # The green upgrade
+			fish_timer.wait_time = randi_range(1, 6)
+			

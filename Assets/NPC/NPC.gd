@@ -2,6 +2,7 @@ extends Node3D
 @onready var anim_player = $NPCMesh/AnimationPlayer
 var player
 @export var dialogs: Array[String] = []
+@export var alternate_dialogs: Array[String] = []
 @onready var meshes: Array[MeshInstance3D] = [$NPCMesh/Armature/Skeleton3D/HandL_001, $NPCMesh/Armature/Skeleton3D/HandL_002, $NPCMesh/Armature/Skeleton3D/HandL_003, $NPCMesh/Armature/Skeleton3D/HandL_004]
 const FRUITEGER_GLOSSY = preload("uid://lkod4xdl2a3t")
 
@@ -42,7 +43,11 @@ func _apply_random_material() -> void:
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("debug_speak") and player != null:
-		PlayerTextDialog.add_dialog(dialogs)
+		if player.player_cosmetic_manager.current_hat == "Wizard Hat":
+			if len(alternate_dialogs) > 0:
+				PlayerTextDialog.add_dialog(alternate_dialogs)
+		else:
+			PlayerTextDialog.add_dialog(dialogs)
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):

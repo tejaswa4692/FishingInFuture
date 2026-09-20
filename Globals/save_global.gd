@@ -1,5 +1,7 @@
 extends Node
 
+var last_timestamp: String = ""
+
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("debug_save"):
 		save()
@@ -16,12 +18,14 @@ func save() -> void:
 	
 	savenodes_data["player_inventory"] = inventory.playerInventory
 	savenodes_data["playerTotalHoldingCost"] = inventory.playerTotalHoldingCost
-	
+	last_timestamp = Time.get_datetime_string_from_system()
+	savenodes_data["timestamp"] = last_timestamp
 	save_file.store_var(savenodes_data)
 	save_file.close()
 	print("Saved to: ", ProjectSettings.globalize_path("user://savegame.save"))
 
 func load_game() -> void:
+	
 	if not FileAccess.file_exists("user://savegame.save"):
 		print("No save file found.")
 		return
@@ -33,6 +37,7 @@ func load_game() -> void:
 		var path = str(i.get_path())
 		if savenodes_data.has(path):
 			i.save_script.call_load(savenodes_data[path])
-	
+	print(savenodes_data["timestamp"])
+	last_timestamp = savenodes_data["timestamp"]
 	inventory.playerInventory = savenodes_data["player_inventory"] 
 	inventory.playerTotalHoldingCost = savenodes_data["playerTotalHoldingCost"] 

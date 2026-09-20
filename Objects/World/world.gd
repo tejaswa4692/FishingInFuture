@@ -6,20 +6,20 @@ extends Node3D
 @export var twilight_range := 15.0
 @onready var area_light_3d: AreaLight3D = $AreaLight3D
 
-func _process(delta: float) -> void:
-	sun.rotation_degrees.x = fposmod(
-		sun.rotation_degrees.x + daynightcyclespeed * delta,
-		360.0
-	)
-
-	if sun.rotation_degrees.x < 180.0:
-		Almighty.current_time = Almighty.TimeOfDay.NIGHT
-		area_light_3d.show()
-	else:
-		Almighty.current_time = Almighty.TimeOfDay.MORNING
-		area_light_3d.hide()
-
-	_update_sun_energy()
+#func _process(delta: float) -> void:
+	#sun.rotation_degrees.x = fposmod(
+		#sun.rotation_degrees.x + daynightcyclespeed * delta,
+		#360.0
+	#)
+#
+	#if sun.rotation_degrees.x < 180.0:
+		#Almighty.current_time = Almighty.TimeOfDay.NIGHT
+		#area_light_3d.show()
+	#else:
+		#Almighty.current_time = Almighty.TimeOfDay.MORNING
+		#area_light_3d.hide()
+#
+	#_update_sun_energy()
 
 func _update_sun_energy() -> void:
 	var angle := sun.rotation_degrees.x

@@ -11,6 +11,7 @@
 [ext_resource type="FontFile" uid="uid://5cvn4a357aeg" path="res://Assets/Orbitron/static/Orbitron-Bold.ttf" id="7_bpp7x"]
 [ext_resource type="Script" uid="uid://bi5ojsjv7jo0d" path="res://Objects/Player/player_dialog_controller.gd" id="7_kmg4v"]
 [ext_resource type="Script" uid="uid://co3suymjpaj48" path="res://Objects/Player/camera_pivot.gd" id="8_jllbl"]
+[ext_resource type="Script" uid="uid://048rwjjxu1s4" path="res://Objects/Player/player_cosmetic_manager.gd" id="9_2xc6l"]
 [ext_resource type="FontFile" uid="uid://bvnogq15ftj3" path="res://Assets/Orbitron/static/Orbitron-Black.ttf" id="10_yemeo"]
 [ext_resource type="Texture2D" uid="uid://cq2x6fgpec0w7" path="res://icon.svg" id="11_yemeo"]
 [ext_resource type="Shader" uid="uid://b707enmve3nsg" path="res://Objects/Shaders/UnderWaterEffect.gdshader" id="13_8a0no"]
@@ -18,8 +19,11 @@
 [ext_resource type="Texture2D" uid="uid://bsl3ai72admfu" path="res://Assets/Help/Group 29.png" id="16_nipdn"]
 [ext_resource type="Script" uid="uid://cgurthw1un6w6" path="res://Objects/Player/help_container.gd" id="16_r7vp5"]
 [ext_resource type="Texture2D" uid="uid://dqeqeg71lpit4" path="res://Assets/Help/Group 32.png" id="17_ikfl2"]
+[ext_resource type="PackedScene" uid="uid://cutjsrd60yrdm" path="res://Assets/Cosmetics/WizardHat.blend" id="18_2xc6l"]
 [ext_resource type="Texture2D" uid="uid://d2282g7vrsyfe" path="res://Assets/Help/Group 35.png" id="18_iuvgb"]
 [ext_resource type="Script" uid="uid://bfmm1bc417s7" path="res://Objects/Player/player_save_script.gd" id="20_um0bh"]
+[ext_resource type="Script" uid="uid://b6bhug4djspus" path="res://Objects/Player/pause_menu.gd" id="23_wl3ml"]
+[ext_resource type="FontFile" uid="uid://5jcccag7vv0c" path="res://Assets/Orbitron/static/Orbitron-Medium.ttf" id="23_xgj1l"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_espde"]
 
@@ -1003,6 +1007,90 @@ shader_parameter/edge_highlight = Color(0.29954746, 0.29954746, 0.29954743, 0.30
 shader_parameter/edge_width = 1.5
 shader_parameter/chromatic_strength = 5.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rn8wc"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 95.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wl3ml"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0.7490196)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 95.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ipsqe"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0.45882353)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 95.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgj1l"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 97.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xc6l"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0.7490196)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 97.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b4ub8"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0.45882353)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 97.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tkhqc"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 97.0
+
 [node name="Player" type="CharacterBody3D" unique_id=1766161627 node_paths=PackedStringArray("camera_ref") groups=["player"]]
 collision_layer = 2
 collision_mask = 3
@@ -1036,6 +1124,9 @@ script = ExtResource("7_kmg4v")
 [node name="save_script" type="Node" parent="." unique_id=877306994]
 script = ExtResource("20_um0bh")
 
+[node name="player_cosmetic_manager" type="Node" parent="." unique_id=48145039]
+script = ExtResource("9_2xc6l")
+
 [node name="MainUI" type="Control" parent="." unique_id=866553073]
 layout_mode = 3
 anchors_preset = 15
@@ -1063,6 +1154,7 @@ anchor_right = 0.8
 anchor_bottom = 0.95
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(345.6, 81)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="MainUI/TextBox/Panel" unique_id=1694965190]
 layout_mode = 1
@@ -1157,7 +1249,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=972280011]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.711332, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0280561, 0)
 script = ExtResource("8_jllbl")
 min_pitch_deg = -40.0
 max_pitch_deg = 40.0
@@ -1191,30 +1283,27 @@ parameters/Grounded/blend_position = 0.0
 [node name="Armature" type="Node3D" parent="." unique_id=517422321]
 transform = Transform3D(1, 0, 0, 0, 0.9999975, -0.0022449633, 0, 0.0022449633, 0.9999975, 0, 0.07471605, 0)
 
-[node name="HandL" type="Node3D" parent="Armature" unique_id=2076323569]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.074716054, 0)
-
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature" unique_id=1059822680]
 bones/0/name = "Body"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 bones/0/enabled = true
 bones/0/position = Vector3(0, 0, 0)
-bones/0/rotation = Quaternion(-0.017452408, 1.7399437e-20, 3.875193e-18, 0.9998477)
-bones/0/scale = Vector3(1, 1.0202993, 1.0000228)
+bones/0/rotation = Quaternion(0, 0, 0, 1)
+bones/0/scale = Vector3(1, 0.9718777, 0.9999999)
 bones/1/name = "Head"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8815112e-26, 0.8777374, 2.1827873e-10)
 bones/1/enabled = true
 bones/1/position = Vector3(-3.8815112e-26, 0.8777374, 2.1827873e-10)
-bones/1/rotation = Quaternion(0.017452408, -1.7399429e-20, -3.8751927e-18, 0.9998477)
+bones/1/rotation = Quaternion(0, 0, 0, 1)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "LeftHand"
 bones/2/parent = 0
 bones/2/rest = Transform3D(1, 8.704147e-14, -2.3841712e-07, -5.686882e-08, -0.9711362, -0.238524, -2.3153696e-07, 0.23852547, -0.97113025, 1.3875521e-17, 0.81524765, 0.29886425)
 bones/2/enabled = true
 bones/2/position = Vector3(1.3875521e-17, 0.81524765, 0.29886425)
-bones/2/rotation = Quaternion(0.80567384, -7.061477e-08, -9.604371e-08, 0.5923594)
+bones/2/rotation = Quaternion(0.9888162, -1.0850786e-08, -1.1871442e-07, 0.14913937)
 bones/2/scale = Vector3(1, 0.99999994, 0.9999938)
 bones/3/name = "LeftHandIK"
 bones/3/parent = 2
@@ -1228,7 +1317,7 @@ bones/4/parent = 0
 bones/4/rest = Transform3D(1, 3.552714e-15, 2.3841864e-07, -7.400557e-08, -0.95060545, 0.31040192, 2.2664199e-07, -0.31040186, -0.9506057, 6.636119e-18, 0.847851, -0.28527948)
 bones/4/enabled = true
 bones/4/position = Vector3(6.636119e-18, 0.847851, -0.28527948)
-bones/4/rotation = Quaternion(0.70812863, -8.41717e-08, 8.4415475e-08, -0.7060834)
+bones/4/rotation = Quaternion(0.98255134, -1.5280373e-08, 1.1822592e-07, -0.18599166)
 bones/4/scale = Vector3(1, 1, 1.0000002)
 bones/5/name = "RightHandIK"
 bones/5/parent = 4
@@ -1273,6 +1362,17 @@ settings/0/joints/0/rotation_axis = 3
 settings/0/joints/0/limitation = null
 settings/0/joints/1/rotation_axis = 3
 settings/0/joints/1/limitation = null
+
+[node name="HeadCosmeticPosition" type="BoneAttachment3D" parent="Armature/Skeleton3D" unique_id=4712263]
+transform = Transform3D(1, 0, 0, 0, 0.9718777, 0, 0, 0, 0.9999999, -3.8815112e-26, 0.8530534, 2.182787e-10)
+bone_name = "Head"
+bone_idx = 1
+
+[node name="HeadMarkerLocation" type="Marker3D" parent="Armature/Skeleton3D/HeadCosmeticPosition" unique_id=606538721]
+transform = Transform3D(1, 0, 0, 0, 1.0329674, 0, 0, 0, 1.0000001, 0, 0.42686814, -0.00085625343)
+
+[node name="WizardHat" parent="Armature/Skeleton3D/HeadCosmeticPosition/HeadMarkerLocation" unique_id=1707021533 instance=ExtResource("18_2xc6l")]
+visible = false
 
 [node name="FishingMarker" type="Marker3D" parent="Armature" unique_id=831309191]
 transform = Transform3D(0.9999999, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000012, 0, 0, 0)
@@ -1448,3 +1548,173 @@ grow_vertical = 0
 theme_override_fonts/normal_font = ExtResource("7_bpp7x")
 text = "Press H to open help and press F5 to quick save and F6 to quick load"
 horizontal_alignment = 2
+
+[node name="PauseMenu" type="Control" parent="." unique_id=2106131351]
+visible = false
+layout_mode = 3
+anchor_left = 0.2
+anchor_top = 0.1
+anchor_right = 0.8
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("23_wl3ml")
+
+[node name="Panel" type="Panel" parent="PauseMenu" unique_id=146518868]
+material = SubResource("ShaderMaterial_u7612")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heading" type="RichTextLabel" parent="PauseMenu" unique_id=1335816255]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.199997
+offset_bottom = 69.2
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("7_bpp7x")
+theme_override_font_sizes/normal_font_size = 46
+text = "Pause Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonsList" type="VBoxContainer" parent="PauseMenu" unique_id=954606442]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.762
+anchor_top = 0.21300001
+anchor_right = 1.0
+anchor_bottom = 0.44000003
+offset_left = -0.09442139
+offset_top = -0.2192154
+offset_bottom = 0.10398865
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SaveButton" type="HBoxContainer" parent="PauseMenu/ButtonsList" unique_id=1094244731]
+layout_mode = 2
+alignment = 1
+
+[node name="Save" type="Button" parent="PauseMenu/ButtonsList/SaveButton" unique_id=953661130]
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("7_bpp7x")
+theme_override_font_sizes/font_size = 33
+theme_override_styles/normal = SubResource("StyleBoxFlat_rn8wc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wl3ml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ipsqe")
+text = "Save"
+
+[node name="LoadButton" type="HBoxContainer" parent="PauseMenu/ButtonsList" unique_id=1433573821]
+layout_mode = 2
+alignment = 1
+
+[node name="Load" type="Button" parent="PauseMenu/ButtonsList/LoadButton" unique_id=1782396061]
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("7_bpp7x")
+theme_override_font_sizes/font_size = 33
+theme_override_styles/normal = SubResource("StyleBoxFlat_xgj1l")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2xc6l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b4ub8")
+text = "Load"
+
+[node name="QuitButton" type="HBoxContainer" parent="PauseMenu/ButtonsList" unique_id=1601990988]
+layout_mode = 2
+alignment = 1
+
+[node name="Quit" type="Button" parent="PauseMenu/ButtonsList/QuitButton" unique_id=1558101613]
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("7_bpp7x")
+theme_override_font_sizes/font_size = 33
+theme_override_styles/normal = SubResource("StyleBoxFlat_tkhqc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2xc6l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b4ub8")
+text = "  Quit"
+
+[node name="PlayerInfo" type="RichTextLabel" parent="PauseMenu" unique_id=1421247701]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.063
+anchor_top = 0.23600002
+anchor_right = 0.61600006
+anchor_bottom = 0.93600005
+offset_left = 0.054389954
+offset_top = -0.14241791
+offset_right = -0.17926025
+offset_bottom = -0.02243042
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("23_xgj1l")
+text = "
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bsHi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs
+Hi this is some random bs"
+
+[node name="LastSave" type="RichTextLabel" parent="PauseMenu" unique_id=1970269351]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.669
+anchor_top = 0.52900004
+anchor_right = 0.94400007
+anchor_bottom = 0.94400007
+offset_left = 0.18713379
+offset_top = -0.03363037
+offset_right = 0.1071167
+offset_bottom = -0.16964722
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("23_xgj1l")
+text = "This is some other important bs 
+This is some other important bs 
+This is some other important bs 
+This is some other important bs 
+This is some other important bs 
+This is some other important bs 
+This is some other important bs This is some other important bs "
+
+[node name="PlayerInfoHeading" type="RichTextLabel" parent="PauseMenu" unique_id=1074550481]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.028
+anchor_top = 0.13900001
+anchor_right = 0.58100003
+anchor_bottom = 0.24700001
+offset_left = 0.24638939
+offset_top = 0.14238739
+offset_right = 0.012756348
+offset_bottom = 0.15518188
+theme_override_fonts/normal_font = ExtResource("7_bpp7x")
+theme_override_font_sizes/normal_font_size = 28
+text = "Current Player Info"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="PauseMenu/ButtonsList/SaveButton/Save" to="PauseMenu" method="save_btn_pressed"]
+[connection signal="pressed" from="PauseMenu/ButtonsList/LoadButton/Load" to="PauseMenu" method="load_btn_pressed"]
+[connection signal="pressed" from="PauseMenu/ButtonsList/QuitButton/Quit" to="PauseMenu" method="quit_btn_pressed"]

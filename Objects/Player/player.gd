@@ -20,13 +20,13 @@ class_name Player
 @onready var TextDialog: RichTextLabel = $MainUI/TextBox/Panel/RichTextLabel
 @onready var player_dialog_controller: Node = $PlayerDialogController
 @onready var save_script: Node = $save_script
+@onready var player_cosmetic_manager: Node = $player_cosmetic_manager
 
-var fishing_rod_tier: int = 0
-
+var current_bobber_upgrade: int = 0
 
 var mount_target = null
 var casted: bool = false
-
+var ui_open: bool = false # This is a seperate bool serves same function as normal canmove , this i made bcause if i use the canmove bool to stop player from moving along w the camer afrom zooming in and out i will loze the camera in and out while riding ship and stuff
 var mounted: bool = false
 var canmove: bool = true
 
@@ -34,8 +34,8 @@ var canmove: bool = true
 
 func _ready() -> void:
 	inventory.player = self
-	bubbles_counter.text = "Bubbles:" + "0"
-	
+	bubbles_counter.text = "Dabloons:" + "0"
+	PlayerTextDialog.player = self
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("cast"):
@@ -51,11 +51,14 @@ func _physics_process(delta: float) -> void:
 	item_list.get_v_scroll_bar().hide()
 	if mounted:
 		return
-
+	
 	gravity_ctrl.apply_gravity(self, delta)
 	if canmove:
-		jump.update(self, delta)
-		movement.update(self, delta, camera_ref)
+		if !ui_open:
+			jump.update(self, delta)
+			movement.update(self, delta, camera_ref)
+		else:
+			movement.stop(self, delta)
 	else:
 		movement.stop(self, delta)
 

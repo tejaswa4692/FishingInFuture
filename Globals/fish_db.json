@@ -53,5 +53,16 @@
 			"min": 30,
 			"max": 50
 		}
+	},
+	"silverfish": {
+		"display_name": "Silver Fish",
+		"price": 30,
+		"scene": "res://Assets/Fishes/SilverFish/SilverFish.glb",
+		"rarity": "rare",
+		"spawnrate": 40,
+		"weight": {
+			"min": 30,
+			"max": 70
+		}
 	}
 }

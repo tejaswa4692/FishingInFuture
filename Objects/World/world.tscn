@@ -14,16 +14,10 @@
 [ext_resource type="ArrayMesh" uid="uid://bigaj1j72inea" path="res://Assets/Grass/stylizedGrassMeshes/Grass.obj" id="14_l2c4u"]
 [ext_resource type="Shader" uid="uid://bwkvrpueypl5s" path="res://Assets/Grass/GrassNew.gdshader" id="15_qxi1e"]
 [ext_resource type="AudioStream" uid="uid://c4m5h7jtatwu4" path="res://Assets/Player/GrassRustling.mp3" id="18_b7ttx"]
-[ext_resource type="PackedScene" uid="uid://bom6naftkdjtm" path="res://Assets/Fishes/ClownFish/ClownFish.blend" id="20_foatb"]
+[ext_resource type="PackedScene" uid="uid://bvb2j2bxff3yx" path="res://Objects/World/cosmetic_shop.tscn" id="20_6pqk6"]
 [ext_resource type="Shader" uid="uid://bthxn7u6kha2q" path="res://Objects/Shaders/Bubble.gdshader" id="21_o4vg6"]
-[ext_resource type="PackedScene" uid="uid://d0c0m0a5w7sxv" path="res://Assets/Fishes/Shark/Shark.blend" id="22_ftawk"]
 [ext_resource type="PackedScene" uid="uid://dm76fgw1yuwuj" path="res://Objects/World/shop_scene.tscn" id="22_kd7ls"]
-[ext_resource type="PackedScene" uid="uid://blwc4i1q702y7" path="res://Assets/Fishes/YellowFish/YellowFish.blend" id="22_krqqq"]
-[ext_resource type="PackedScene" uid="uid://emeb1iaq53mp" path="res://Assets/Fishes/Dory/Dory.blend" id="23_ftawk"]
-[ext_resource type="PackedScene" uid="uid://b748dod0n50f1" path="res://Assets/Fishes/KoiFish/Koi.glb" id="23_hk2b7"]
 [ext_resource type="PackedScene" uid="uid://ocjcwss3alb8" path="res://Assets/WorldMap/ActualDecck.blend" id="23_krqqq"]
-[ext_resource type="Script" uid="uid://pimqhk74ku57" path="res://Objects/World/npc_container.gd" id="24_hk2b7"]
-[ext_resource type="PackedScene" uid="uid://br8o84s273vpg" path="res://Assets/Buildings/CosmeticShop.blend" id="25_bxflb"]
 [ext_resource type="PackedScene" uid="uid://blltbikgbop26" path="res://Objects/NPC/npc.tscn" id="25_hk2b7"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1f02y"]
@@ -123,7 +117,7 @@ transform = Transform3D(-0.9945839, 0.03199906, -0.09888822, -0.086520486, 0.272
 shadow_enabled = true
 
 [node name="Player" parent="." unique_id=1766161627 groups=["saveable"] instance=ExtResource("4_ftawk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1713705, 6.5195313, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19402, 2.9905558, 0)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1385472277]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5175996, 0.50376034, 0)
@@ -188,55 +182,42 @@ lifetime = 5.31
 process_material = SubResource("ParticleProcessMaterial_pw6bj")
 draw_pass_1 = SubResource("SphereMesh_sbdf5")
 
-[node name="YellowFish" parent="." unique_id=1935643446 instance=ExtResource("22_krqqq")]
-transform = Transform3D(0.25881907, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881907, -19.126247, 5.043358, 11.983429)
-
 [node name="ShopScene" parent="." unique_id=753759313 instance=ExtResource("22_kd7ls")]
 transform = Transform3D(0.6988639, 0, 0.71525466, 0, 1, 0, -0.71525466, 0, 0.6988639, -14.284412, 1.2974153, -24.071438)
 
 [node name="ActualDecck" parent="." unique_id=1164269361 instance=ExtResource("23_krqqq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9372356, -4.3552, -44.579193)
 
-[node name="CosmeticShop" parent="." unique_id=683106723 instance=ExtResource("25_bxflb")]
-transform = Transform3D(0.97770405, 0, 0.2099874, 0, 1, 0, -0.2099874, 0, 0.97770405, -18.525206, 0.92936707, 13.096506)
-
-[node name="Shark" parent="." unique_id=845810520 instance=ExtResource("22_ftawk")]
-transform = Transform3D(0.25881907, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881907, -14.815012, 4.4363537, 15.526761)
-
-[node name="Dory" parent="." unique_id=1388696893 instance=ExtResource("23_ftawk")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -17.541183, 5.043358, 14.189694)
-
-[node name="ClownFish2" parent="." unique_id=936030307 instance=ExtResource("20_foatb")]
-transform = Transform3D(0.25881907, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881907, -19.157505, 5.0333133, 9.457882)
-
-[node name="Koi" parent="." unique_id=1908635652 instance=ExtResource("23_hk2b7")]
-transform = Transform3D(-0.25881904, 0, 0.9659258, 0, 1, 0, -0.9659258, 0, -0.25881904, -18.634514, 5.043358, 10.905217)
-
 [node name="NPC_Container" type="Node3D" parent="." unique_id=1328846150]
-script = ExtResource("24_hk2b7")
 
 [node name="Bob" parent="NPC_Container" unique_id=852323681 instance=ExtResource("25_hk2b7")]
 transform = Transform3D(-0.85477024, 0, 0.5190065, 0, 1, 0, -0.5190065, 0, -0.85477024, -2.639452, 1.4368632, 20.075573)
 dialogs = Array[String](["Halloooo", "Nice weather we're having "])
+alternate_dialogs = null
 
 [node name="George" parent="NPC_Container" unique_id=618384003 groups=["idle_npc"] instance=ExtResource("25_hk2b7")]
 transform = Transform3D(0.8547704, 0, -0.5190065, 0, 1, 0, 0.5190065, 0, 0.8547704, -5.9186707, 1.4368632, 18.084469)
 dialogs = Array[String](["Oh hi kid do u want smt from me"])
+alternate_dialogs = null
 
 [node name="Edward" parent="NPC_Container" unique_id=592851886 instance=ExtResource("25_hk2b7")]
 transform = Transform3D(-0.8233888, 0, -0.5674776, 0, 1, 0, 0.5674776, 0, -0.8233888, -8.210122, 1.4368632, 2.4249806)
-dialogs = Array[String](["Man i wonder when will they finish construction of this building"])
+dialogs = Array[String](["Man i wonder when will they finish construction of this building", "I agree its been way too long, I heard the constructer has been slacking off, uncs be doing anything but work ig"])
+alternate_dialogs = null
 
 [node name="John" parent="NPC_Container" unique_id=2083469602 groups=["idle_npc"] instance=ExtResource("25_hk2b7")]
 transform = Transform3D(0.8233888, 0, 0.56747776, 0, 1, 0, -0.56747776, 0, 0.8233888, -11.368951, 1.4368632, 4.602037)
-dialogs = Array[String](["I agree its been way too long, I heard the constructer has been slacking off, uncs be doing anything but work ig"])
+dialogs = Array[String](["Man i wonder when will they finish construction of this building", "I agree its been way too long, I heard the constructer has been slacking off, uncs be doing anything but work ig"])
+alternate_dialogs = null
 
 [node name="Ana" parent="NPC_Container" unique_id=1932234731 groups=["idle_npc"] instance=ExtResource("25_hk2b7")]
 transform = Transform3D(-2.9505188e-08, 0, -0.675, 0, 0.675, 0, 0.675, 0, -2.9505188e-08, 0.13414788, -4.30295, -49.301376)
 dialogs = Array[String](["* Ana doesnt want to be talked to *"])
+alternate_dialogs = Array[String](["Oh hey cool hat"])
 
 [node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=54382350]
 transform = Transform3D(0.7071068, 0.7071068, 3.090862e-08, 0, -4.3711392e-08, 1, 0.7071068, -0.7071068, -3.090862e-08, -14.37236, 9.755203, -24.054161)
+visible = false
 light_color = Color(0.44366044, 0.5464313, 0.5159126, 1)
 light_energy = 48.795
 area_range = 7.517
@@ -248,3 +229,6 @@ light_color = Color(0.43774572, 0.5391836, 0.578446, 1)
 light_energy = 48.795
 area_range = 7.517
 area_size = Vector2(9.211046, 9.011183)
+
+[node name="CosmeticShop2" parent="." unique_id=1574533369 instance=ExtResource("20_6pqk6")]
+transform = Transform3D(0.97770405, 0, 0.2099874, 0, 1, 0, -0.2099874, 0, 0.97770405, -18.525206, 0.92936707, 13.096506)

@@ -41,10 +41,25 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
+"Floor": {
+"use_external/enabled": false,
+"use_external/fallback_path": "res://Assets/Buildings/GlossWhite.tres",
+"use_external/path": "uid://dko1i6mohh7tv"
+},
 "GlassLike": {
 "use_external/enabled": true,
 "use_external/fallback_path": "res://Assets/Player/FruitegerAero.tres",
 "use_external/path": "uid://c365xxudmoomp"
+},
+"TubeLight": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Assets/Buildings/TubeLight.tres",
+"use_external/path": "uid://p6vsqx5iw5nq"
+},
+"WhiteGloss": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Assets/Buildings/GlossWhite.tres",
+"use_external/path": "uid://dko1i6mohh7tv"
 }
 }
 }

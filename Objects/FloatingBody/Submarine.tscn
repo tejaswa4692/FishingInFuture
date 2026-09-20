@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://bto1mamvyc6oh"]
+
+[ext_resource type="PackedScene" uid="uid://c5bkhcvutdqbc" path="res://Assets/Sub/Sub.blend" id="1_1rfew"]
+[ext_resource type="Script" uid="uid://qxja4jl2wx75" path="res://Objects/FloatingBody/submarine.gd" id="1_jm4go"]
+[ext_resource type="Script" uid="uid://c3fdgkpc5fjdf" path="res://Objects/FloatingBody/buoyancy_component.gd" id="2_vhp3y"]
+[ext_resource type="Script" uid="uid://ksqdt047eanm" path="res://Objects/FloatingBody/boat_controller.gd" id="4_17gpp"]
+[ext_resource type="Script" uid="uid://cvg2f26rwr7jg" path="res://Objects/Player/player_mount_controller.gd" id="5_s0glq"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_v2i7q"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s0glq"]
+size = Vector3(4, 2.9294434, 9.45813)
+
+[node name="RigidBody3D" type="RigidBody3D" unique_id=955583029]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_jm4go")
+
+[node name="Sub" parent="." unique_id=802319757 instance=ExtResource("1_1rfew")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.021409988, 0, -2)
+
+[node name="BuoyancyComponent" type="Node3D" parent="." unique_id=1604819640 node_paths=PackedStringArray("float_points")]
+script = ExtResource("2_vhp3y")
+float_points = [NodePath("../FloatFL"), NodePath("../FloatFR"), NodePath("../FloatBL"), NodePath("../FloatBR")]
+waves_affect_buoyancy = false
+flat_water_level = -5.0
+
+[node name="FloatFL" type="Node3D" parent="." unique_id=302663878 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, -0.5)
+
+[node name="FloatFR" type="Node3D" parent="." unique_id=574906518 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 0.5)
+
+[node name="FloatBL" type="Node3D" parent="." unique_id=1338979248 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.5, -0.5)
+
+[node name="FloatBR" type="Node3D" parent="." unique_id=414154606 groups=["float_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.5, -0.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1114555741]
+shape = SubResource("SphereShape3D_v2i7q")
+
+[node name="BoatController" type="Node" parent="." unique_id=1616622174]
+script = ExtResource("4_17gpp")
+turn_torque = 0.02
+
+[node name="PlayerMountController" type="Node" parent="." unique_id=1837592343]
+script = ExtResource("5_s0glq")
+
+[node name="MountPoint" type="Marker3D" parent="." unique_id=2070224667]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3043554, -0.6349844)
+
+[node name="PlayerArea" type="Area3D" parent="." unique_id=1627870430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05522871, -1.0140415, -3.6623898)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerArea" unique_id=457550878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9647217, 3.229065)
+shape = SubResource("BoxShape3D_s0glq")
+
+[connection signal="body_entered" from="PlayerArea" to="." method="_on_body_entered"]
+[connection signal="body_exited" from="PlayerArea" to="." method="_on_body_exited"]

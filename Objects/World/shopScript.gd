@@ -1,9 +1,6 @@
 extends Node3D
 
 var player = null
-
-#[{ "display_name": "Yellow Fish", "price": 150.0, "scene": "res://Assets/Fishes/YellowFish/YellowFish.glb", "rarity": "uncommon", "weight": 17 }]
-
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("debugsellall"):
 		if player != null:
@@ -13,8 +10,8 @@ func _input(_event: InputEvent) -> void:
 				var fish_weight = i.get("weight", 0)
 				calculated_price = fish_price * fish_weight
 				inventory.playerTotalHoldingCost += calculated_price
-				
-				inventory.player.bubbles_counter.text = "Bubbles: " + str(inventory.playerTotalHoldingCost)
+				#
+				#inventory.update_text()
 			player.display_sold(calculated_price)
 			#PlayerTextDialog.add_dialog(["Thx for choosing us :) Your total is " + str(calculated_price) + " I hope to see u again :)"
 			#])
