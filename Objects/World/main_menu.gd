@@ -35,11 +35,14 @@ func move_camera_to(target: Marker3D) -> void: #Again this function has been wri
 
 func _on_start_btn_pressed() -> void:
 	SceneTransition.change_scene("res://Objects/World/world.tscn")
+	$Menu/ButtonsList/StartBtn.disabled = true
 
 
 func _on_load_btn_pressed() -> void:
 	SceneTransition.change_scene_and_load("res://Objects/World/world.tscn")
+	$Menu/ButtonsList/LoadBtn.disabled = true
 
 
 func _on_quit_btn_pressed() -> void:
+	$Menu/ButtonsList/QuitBtn.disabled = true
 	get_tree().quit()

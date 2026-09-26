@@ -9,11 +9,11 @@ This is the todo/goals list for this game
 Todays todo
 1 hour straight 3D modelling the fishes via lapse [X]
 30-45 mins of straight filling the details in the fish db and gameplay testing to balance the game [X]
-1 hour of making the jetski 
-1 hour of making the place where you can actually buy the jetski and other vehicles
+1 hour of making the jetski [X]
+1 hour of making the place where you can actually buy the jetski and other vehicles []
 
 Later todo
 make it so that when you go far the fog completely covers your screen or some other way to prevent it
-make the vehicle unlocked configuration saved
-make a vehicle deck where u can mount diff vehicles
-polish the NPCs we can do better than this
+make the vehicle unlocked configuration saved 
+make a vehicle deck where u can mount diff vehicles 
+polish the NPCs we can do better than this 

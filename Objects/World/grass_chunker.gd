@@ -1,5 +1,7 @@
 extends Node3D
 
+#ONly this one scriot i vibecoded
+
 @export var grass_mesh: Mesh
 @export var grass_material: Material
 @export var blade_scale: float = 1.0

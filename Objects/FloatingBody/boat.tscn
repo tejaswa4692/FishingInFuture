@@ -49,10 +49,15 @@ shape = SubResource("BoxShape3D_7a1w0")
 [node name="PlayerMountController" type="Node" parent="." unique_id=270618315]
 script = ExtResource("3_u11i0")
 
-[node name="BoatController" type="Node" parent="." unique_id=1965470567]
+[node name="BoatController" type="Node" parent="." unique_id=1965470567 node_paths=PackedStringArray("visual_mesh")]
 script = ExtResource("4_b2k6l")
 thrust_force = 10.0
 turn_torque = 10.0
+visual_mesh = NodePath("../Boat")
+max_lean_deg = -4.0
+max_pitch_deg = 5.0
+top_speed = 60.0
+metadata/Vehicle = "Boat"
 
 [node name="save_script" type="Node" parent="." unique_id=59085199]
 script = ExtResource("6_wgvd2")
