@@ -23,12 +23,13 @@ func _ready() -> void:
 		restBasis = visual_mesh.transform.basis
 
 func _physics_process(delta: float) -> void:
-	if parent.canControl:
+	if parent.canControl and parent.fuel_percentage > 0:
 		handleMovement(delta)
 
 func handleMovement(delta: float) -> void:
 	var throttle := Input.get_axis("down", "up")
 	if throttle > 0 and parent.in_water:
+		parent.fuel_percentage = max(0.0, parent.fuel_percentage - 2 * absf(throttle) * delta)
 		parent.apply_central_force(-parent.global_transform.basis.z * thrust_force * throttle)
 	elif throttle < 0 and parent.in_water:
 		parent.apply_central_force(-parent.global_transform.basis.z * reverse_force * throttle)

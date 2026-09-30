@@ -37,8 +37,9 @@ func start_speaking() -> void:
 	box.show()
 	pop_in()
 	get_parent().canmove = false
-	var is_confirm: bool = PlayerTextDialog.current_state == PlayerTextDialog.DialogState.CONFIRMING
+	var is_confirm: bool = PlayerTextDialog.confirm_after_dialog
 	while PlayerTextDialog.dialog_awaiting.size() > 0:
+		print("SHOWING: ", PlayerTextDialog.dialog_awaiting, " | state: ", PlayerTextDialog.current_state)
 		var text_to_show: String = PlayerTextDialog.dialog_awaiting.pop_front()
 		var is_last_line: bool = PlayerTextDialog.dialog_awaiting.size() == 0
 		text_dialog.text = text_to_show
@@ -53,6 +54,7 @@ func start_speaking() -> void:
 		)
 		await current_tween.finished
 		if is_confirm and is_last_line:
+			PlayerTextDialog.on_last_line_shown()
 			await PlayerTextDialog.dialog_confirmed
 		else:
 			await dialogue_advanced

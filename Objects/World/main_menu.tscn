@@ -80,6 +80,8 @@ shader_parameter/WindDirection = Vector2(0, -1)
 shader_parameter/WindSpeed = 1.7650000838375
 shader_parameter/WindSwayMultiplyer = 1.670000079325
 shader_parameter/WindColorStrength = 0.3650000173375
+shader_parameter/HideRadius = 0.6
+shader_parameter/FadeWidth = 0.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nmiv2"]
 content_margin_left = 4.0

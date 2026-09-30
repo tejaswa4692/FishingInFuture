@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cn86dwdmsppsb" path="res://Assets/Fishes/jetski/textures/jetski.png" id="6_a5lrq"]
 [ext_resource type="Shader" uid="uid://2gyqiclftntb" path="res://Assets/Player/FruitegerGlossy.gdshader" id="7_1i087"]
 [ext_resource type="Material" uid="uid://lkod4xdl2a3t" path="res://Assets/Player/FruitegerGlossy.tres" id="7_xup2b"]
+[ext_resource type="Shader" uid="uid://drhx48a1d5hwv" path="res://Objects/FloatingBody/fuel.gdshader" id="9_jl0al"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nsmug"]
 size = Vector3(4, 2.9294434, 9.45813)
@@ -300,7 +301,21 @@ shader_parameter/foam_noise_scale = 1.0
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_a5lrq"]
 points = PackedVector3Array(-0.6713878, 0.53394765, -1.7580434, 0.95050806, 0.60865283, 2.224193, 0.9470831, 0.38945302, 2.216553, -0.9111272, 0.52798164, 2.4278045, 0.07304172, 1.7039158, -0.54608727, 0.80238557, 0.31490245, -1.2332863, -0.15096992, 0.031709358, 2.047552, 0.62963957, 0.9088695, -1.9769342, -0.7214911, 0.9088695, -1.7383766, -0.8711433, 0.25286058, -0.70268637, -0.8805191, 0.8294333, 2.2359211, 0.9476955, 0.8294333, 2.1567342, 0.06553962, 0.03766827, -0.7736182, 0.31158367, 0.9088695, -2.374364, -0.96003306, 0.8294333, -0.2278446, 0.82018, 0.22850458, 2.3435812, -0.24440722, 1.6243085, -0.54608727, -0.079583175, 0.3874193, -1.9727359, 0.78866756, 0.9088695, -1.4998192, 0.7091536, 0.8294333, 2.3952916, -0.82990646, 0.23041168, 2.3364289, -0.48294917, 0.9088695, -2.2154915, 0.947834, 0.4625996, -0.8641464, 0.8362089, 0.44660974, 2.5408347, -0.7214911, 0.8294333, 2.3952916, 0.31158367, 1.5448723, -0.54608727, -0.96289736, 0.4616294, -0.7929101, 0.852171, 0.2572701, -0.7683308, -0.97307944, 0.4577146, 2.2465703, 0.1390965, 0.02905621, 2.054063, -0.6167525, 0.2951154, 2.5329063, 0.5854648, 0.45968425, -1.8333572)
 
-[node name="Jetski" type="RigidBody3D" unique_id=1736897792 groups=["saveable"]]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iuw80"]
+shader = ExtResource("9_jl0al")
+shader_parameter/fV = 1.0
+shader_parameter/scale = 4.00000018674012
+shader_parameter/liquid_color = Color(1, 0.76215374, 0.574502, 1)
+shader_parameter/highlight_color = Color(0.89978236, 0.90638155, 0.8944493, 1)
+shader_parameter/rim_color = Color(0.48613626, 0.56951183, 0.5578847, 1)
+shader_parameter/background_color = Color(0, 0, 0, 0)
+shader_parameter/wave_amplitude = 0.02700000128249999
+shader_parameter/wave_frequency = 3.867000180422621
+shader_parameter/wave_speed = 1.1530000547675
+shader_parameter/bob_amplitude = 0.0150000007125
+shader_parameter/bob_speed = 1.050000049875
+
+[node name="Jetski" type="RigidBody3D" unique_id=1736897792 groups=["saveable", "vehicle"]]
 script = ExtResource("1_a5lrq")
 metadata/vehicle = "jetski"
 
@@ -461,6 +476,29 @@ transform = Transform3D(-4.371139e-08, 0.0022449633, 0.9999975, -0.5, 0.86602324
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=203582259]
 shape = SubResource("ConvexPolygonShape3D_a5lrq")
+
+[node name="BoatUI" type="Control" parent="." unique_id=260890596]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="BoatUI" unique_id=945178223]
+material = SubResource("ShaderMaterial_iuw80")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 47.0
+offset_top = -38.0
+offset_right = 127.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="body_entered" from="PlayerArea" to="." method="_on_body_entered"]
 [connection signal="body_exited" from="PlayerArea" to="." method="_on_body_exited"]

@@ -8,7 +8,9 @@ func _input(_event: InputEvent) -> void:
 			if parent.player == null:
 				return
 			parent.canControl = true
+			parent.fuel_guage.show()
 			parent.player.mount(parent, parent.mount_point)
+			parent.init_fuel_percentage()
 			if parent.get_meta("vehicle", "") == "jetski":
 				parent.hide_player()
 		else:
@@ -16,5 +18,7 @@ func _input(_event: InputEvent) -> void:
 				return
 			parent.canControl = false
 			parent.player.unmount()
+			parent.fuel_guage.hide()
+			parent.init_fuel_percentage()
 			if parent.get_meta("vehicle", "") == "jetski":
 				parent.show_player()

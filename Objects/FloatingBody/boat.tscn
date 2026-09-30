@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://ksqdt047eanm" path="res://Objects/FloatingBody/boat_controller.gd" id="4_b2k6l"]
 [ext_resource type="PackedScene" uid="uid://53hfjf38i7h6" path="res://Assets/Bpat/Boat.blend" id="5_8t626"]
 [ext_resource type="Script" uid="uid://rm7hvt8hhewh" path="res://Objects/FloatingBody/save_script.gd" id="6_wgvd2"]
+[ext_resource type="Shader" uid="uid://drhx48a1d5hwv" path="res://Objects/FloatingBody/fuel.gdshader" id="7_spjh4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b2k6l"]
 size = Vector3(3.658144, 1.396169, 9.430013)
@@ -13,7 +14,21 @@ size = Vector3(3.658144, 1.396169, 9.430013)
 [sub_resource type="BoxShape3D" id="BoxShape3D_7a1w0"]
 size = Vector3(4, 2.9294434, 9.45813)
 
-[node name="Boat" type="RigidBody3D" unique_id=1250474141 groups=["saveable"]]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wgvd2"]
+shader = ExtResource("7_spjh4")
+shader_parameter/fV = 1.0
+shader_parameter/scale = 4.00000018674012
+shader_parameter/liquid_color = Color(1, 0.76215374, 0.574502, 1)
+shader_parameter/highlight_color = Color(0.89978236, 0.90638155, 0.8944493, 1)
+shader_parameter/rim_color = Color(0.48613626, 0.56951183, 0.5578847, 1)
+shader_parameter/background_color = Color(0, 0, 0, 0)
+shader_parameter/wave_amplitude = 0.02700000128249999
+shader_parameter/wave_frequency = 3.867000180422621
+shader_parameter/wave_speed = 1.1530000547675
+shader_parameter/bob_amplitude = 0.0150000007125
+shader_parameter/bob_speed = 1.050000049875
+
+[node name="Boat" type="RigidBody3D" unique_id=1250474141 groups=["saveable", "vehicle"]]
 script = ExtResource("1_7a1w0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1343632458]
@@ -70,6 +85,29 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -
 
 [node name="front_foam" type="Node3D" parent="." unique_id=2054033775]
 transform = Transform3D(0.62000316, 0, -0.7845993, 0.55925417, 0.701378, 0.44193175, 0.55030066, -0.71278954, 0.43485656, -0.5416685, -1.9948468, -4.5711093)
+
+[node name="BoatUI" type="Control" parent="." unique_id=1581829273]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="BoatUI" unique_id=1596762428 groups=["vehicle"]]
+material = SubResource("ShaderMaterial_wgvd2")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 47.0
+offset_top = -38.0
+offset_right = 127.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="body_entered" from="PlayerArea" to="." method="_on_body_entered"]
 [connection signal="body_exited" from="PlayerArea" to="." method="_on_body_exited"]

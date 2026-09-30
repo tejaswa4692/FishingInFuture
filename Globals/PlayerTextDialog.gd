@@ -3,6 +3,7 @@ enum DialogState { WAITING, SPEAKING, CONFIRMING }
 var current_state: DialogState = DialogState.WAITING
 var player: Player
 var dialog_awaiting: Array[String] = []
+var confirm_after_dialog: bool = false
 signal dialog_confirmed(result: bool)
 signal dialog_closed
 
@@ -13,9 +14,11 @@ func _ready() -> void:
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("debug_speak"):
 		if current_state == DialogState.SPEAKING:
+			print("ADVANCE emitted | state: ", current_state, " | queue: ", dialog_awaiting)
 			player.player_dialog_controller.dialogue_advanced.emit()
 	if current_state == DialogState.CONFIRMING:
 		if _event is InputEventKey and _event.pressed and not _event.echo:
+			print("state: ", current_state, " key: ", _event.keycode, " phys: ", _event.physical_keycode)
 			if _event.keycode == KEY_Y:
 				player.player_dialog_controller.answer_confirm(true)
 			elif _event.keycode == KEY_N:
@@ -32,8 +35,15 @@ func ask_yes_no(prompt: Array[String]) -> bool:
 	if current_state != DialogState.WAITING:
 		return false
 	dialog_awaiting.append_array(prompt)
-	current_state = DialogState.CONFIRMING
+	confirm_after_dialog = true
+	current_state = DialogState.SPEAKING
 	player.player_dialog_controller.start_speaking()
 	var result: bool = await dialog_confirmed
 	await dialog_closed
+	current_state = DialogState.WAITING
 	return result
+
+func on_last_line_shown() -> void:
+	if confirm_after_dialog:
+		confirm_after_dialog = false
+		current_state = DialogState.CONFIRMING

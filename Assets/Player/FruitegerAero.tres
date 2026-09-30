@@ -2,4 +2,8 @@
 
 [resource]
 transparency = 1
-albedo_color = Color(0.24331099, 0.6175542, 0.6688007, 0.30588236)
+albedo_color = Color(0.20502308, 0.5976929, 0.7687111, 0.6862745)
+metallic_specular = 1.0
+roughness = 0.0
+emission = Color(0.68307734, 0.6830774, 0.68307734, 1)
+emission_energy_multiplier = 1.75

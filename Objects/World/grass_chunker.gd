@@ -1,6 +1,6 @@
 extends Node3D
 
-#ONly this one scriot i vibecoded
+#ONly this one scriot i vibecoded as this is beyond me and way too complex
 
 @export var grass_mesh: Mesh
 @export var grass_material: Material

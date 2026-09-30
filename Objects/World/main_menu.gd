@@ -6,8 +6,14 @@ extends Node3D
 	$CamPoints/CamPoint3,
 	$CamPoints/CamPoint2
 ]
+@onready var load_btn: Button = $Menu/ButtonsList/LoadBtn
 
 var current_point: int = 0
+
+
+func _ready() -> void:
+	await get_tree().process_frame
+	load_btn.disabled = not FileAccess.file_exists("user://savegame.save")
 
 
 func _on_timer_timeout() -> void:

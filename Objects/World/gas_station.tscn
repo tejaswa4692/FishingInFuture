@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://bl0030khtcxkf"]
+
+[ext_resource type="Script" uid="uid://dilysvxro04jy" path="res://Objects/World/gas_station.gd" id="1_5c3kd"]
+[ext_resource type="PackedScene" uid="uid://fejab5c46rq6" path="res://Assets/Fishes/GasStation/GasStation.blend" id="1_8igq5"]
+[ext_resource type="PackedScene" uid="uid://o1vxd0kcj4y" path="res://Assets/Player/Player.glb" id="2_dfnoj"]
+[ext_resource type="PackedScene" uid="uid://bcds4b1scie6i" path="res://Objects/World/deck.tscn" id="3_shmut"]
+[ext_resource type="Script" uid="uid://c7e0sfuk14a3p" path="res://Objects/World/employee.gd" id="5_v3w8m"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_shmut"]
+height = 1.5639648
+radius = 1.1391602
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v2i7q"]
+size = Vector3(12.000244, 6, 12.487732)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_v2i7q"]
+radius = 1.6533203
+
+[node name="GasStation" type="Node3D" unique_id=825085862]
+script = ExtResource("1_5c3kd")
+
+[node name="GasStation" parent="." unique_id=765906669 instance=ExtResource("1_8igq5")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1.0000001, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="NPCMesh" parent="." unique_id=1916000806 instance=ExtResource("2_dfnoj")]
+transform = Transform3D(-0.8125, 0, -1.4072912, 0, 1.6249999, 0, 1.4072912, 0, -0.8125, 8.154179, -0.026748419, -3.1304772)
+
+[node name="Area3D" type="Area3D" parent="NPCMesh" unique_id=714053122]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0.9734856, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPCMesh/Area3D" unique_id=1512051998]
+transform = Transform3D(0.9999998, 0, 0, 0, 0.9999998, 0, 0, 0, 0.9999998, 0, -0.21801722, 0)
+shape = SubResource("CylinderShape3D_shmut")
+
+[node name="Deck2" parent="." unique_id=1357175766 instance=ExtResource("3_shmut")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -14.792385, -0.07572746, -9.2691555)
+
+[node name="Deck3" parent="." unique_id=2023141153 instance=ExtResource("3_shmut")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -14.792385, -0.07572746, 9.282085)
+
+[node name="RefuellingArea" type="Area3D" parent="." unique_id=753271281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RefuellingArea" unique_id=433705111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65197754, -0.18652344, 0.006011963)
+shape = SubResource("BoxShape3D_v2i7q")
+
+[node name="NPCTalkArea" type="Area3D" parent="." unique_id=1837811512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.889346, 0, -0.20165956)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPCTalkArea" unique_id=1628285243]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.41862524)
+shape = SubResource("CylinderShape3D_v2i7q")
+
+[node name="Employee" type="Node" parent="." unique_id=985888217]
+script = ExtResource("5_v3w8m")
+
+[connection signal="body_entered" from="RefuellingArea" to="." method="_on_refuelling_area_body_entered"]
+[connection signal="body_exited" from="RefuellingArea" to="." method="_on_refuelling_area_body_exited"]
+[connection signal="body_entered" from="NPCTalkArea" to="Employee" method="_on_npc_talk_area_body_entered"]
+[connection signal="body_exited" from="NPCTalkArea" to="Employee" method="_on_npc_talk_area_body_exited"]
